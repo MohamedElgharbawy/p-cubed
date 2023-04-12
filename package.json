@@ -1,0 +1,23 @@
+{
+  "name": "p-cubed",
+  "version": "1.0.0",
+  "description": "CS 160/260A Final Project",
+  "main": "App.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MohamedElgharbawy/p-cubed.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MohamedElgharbawy/p-cubed/issues"
+  },
+  "homepage": "https://github.com/MohamedElgharbawy/p-cubed#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "firebase": "^9.19.1"
+  }
+}
