@@ -1,15 +1,20 @@
 //Node modules to *require*
 //if these cause errors, be sure you've installed them, ex: 'npm install express'
-const express = require('express');
-const router = express.Router();
+import express from 'express';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const app = express();
-const path = require('path');
+const router = express.Router();
 
 //specify that we want to run our website on 'http://localhost:8000/'
 const host = 'localhost';
 const port = 8000;
 
-var publicPath = path.join(__dirname, 'public/html'); //get the path to use our "public" folder where we stored our html, css, images, etc
+var publicPath = path.join(__dirname, 'public'); //get the path to use our "public" folder where we stored our html, css, images, etc
 app.use(express.static(publicPath));  //tell express to use that folder
 
 //here's where we specify what to send to users that connect to our web server...
@@ -21,7 +26,11 @@ router.get("/", function (req, res) {
 
 //depending on what url extension the user navigates to, send them the respective html file.
 app.get('/', function (req, res) {
-    res.sendFile(publicPath + '/login.html');
+    res.sendFile(publicPath + '/html/home.html');
+});
+
+app.get('/login', function (req, res) {
+    res.sendFile(publicPath + '/html/login.html');
 });
 
 //run this server by entering "node App.js" using your command line. 
