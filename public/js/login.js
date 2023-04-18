@@ -1,9 +1,11 @@
 import { firebaseApp, db } from '../firebase/config.js'
 import { getAuth, signInWithPopup, GoogleAuthProvider } from 'https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js'
-import { doc, setDoc } from 'https://www.gstatic.com/firebasejs/9.19.1/firebase-firestore.js'
+import { doc, getDoc, setDoc } from 'https://www.gstatic.com/firebasejs/9.19.1/firebase-firestore.js'
 
 function signInGoogle() {
     const provider = new GoogleAuthProvider();
+    provider.addScope("https://www.googleapis.com/auth/forms")
+    provider.addScope("https://www.googleapis.com/auth/spreadsheets")
     const auth = getAuth();
     signInWithPopup(auth, provider)
         .then(async (result) => {
@@ -19,7 +21,10 @@ function signInGoogle() {
                 courses: []
             }
             const userRef = doc(db, 'users', user.uid);
-            await setDoc(userRef, account, { merge: true });
+            const userDoc = await getDoc(userRef)
+            if (!userDoc.exists()) {
+                await setDoc(userRef, account, { merge: true });
+            }
 
             location.href = '/';
         }).catch((error) => {
