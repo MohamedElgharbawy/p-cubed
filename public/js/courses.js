@@ -5,6 +5,7 @@ import { doc, setDoc, getDoc, updateDoc, arrayUnion } from 'https://www.gstatic.
 function addCourse(number, name, term) {
     const auth = getAuth();
     auth.onAuthStateChanged(async function (user) {
+        // Seems like a security concern: a user can access any course
         if (user) {
             // User is signed in.
             const course = {
@@ -70,3 +71,5 @@ async function getCourses() {
 function getUUID() {
     return Date.now().toString(36) + Math.random().toString(36).substring(2);
 }
+
+export { addCourse, getCourses };
