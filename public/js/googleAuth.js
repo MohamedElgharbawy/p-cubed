@@ -19,6 +19,7 @@ function signInGoogle() {
             // set account  doc  
             const account = {
                 useruid: user.uid,
+                email: user.email,
                 courses: []
             }
             const userRef = doc(db, 'users', user.uid);
