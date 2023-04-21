@@ -1,8 +1,8 @@
-import { getCourses, addCourse } from "./courses.js"
+import { getCourses, addCourse, deleteCourse } from "./courses.js"
 
 function printCourses() {
-    console.log("hi");
     getCourses().then(function (courses) {
+        console.log(typeof courses)
         console.log(courses);
     });
 }
