@@ -1,7 +1,5 @@
 import sys, json
 import csv
-import urllib.request as request
-import yaml
 from matching.games import HospitalResident
 
 def parse_student_csv(file_p):

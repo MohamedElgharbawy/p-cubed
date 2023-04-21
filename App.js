@@ -49,20 +49,7 @@ app.get("/assign", (req, res, next)=>{
         console.log(output)
         res.send(output)
     });
-
-
-    //const data = req.query;
-
-    //pyshell.send(JSON.stringify(data), { mode: 'json' });
-
-    //pyshell.on('message', results => {
-    //console.log(results);
-    //res.send(results);
-    //});
-
-    //pyshell.end(err => {
-    //if (err) res.send("Error : ", err);
-    //});
+});
 
 app.get('/add_new_course_popup', function (req, res) {
     res.sendFile(publicPath + '/html/add_new_course_popup.html');
