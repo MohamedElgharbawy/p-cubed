@@ -35,3 +35,15 @@ function updateCoursesDisplay() {
 document.getElementById('printCourses').addEventListener('click', printCourses)
 document.getElementById('addRandomCourse').addEventListener('click', addRandomCourse)
 document.getElementById('updateDisplay').addEventListener('click', updateCoursesDisplay)
+
+$('#assignPref').on('click', function() {
+    $.ajax({
+      type: 'GET',
+      url: '/assign',
+      dataType: 'json',
+      data: { 'file_p': 'asset/pcubed_sample_student_pref.csv' },
+      success: function(resultData) {
+         console.log(resultData);
+      }
+    });
+});

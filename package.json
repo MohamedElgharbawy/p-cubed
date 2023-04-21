@@ -17,8 +17,12 @@
   },
   "homepage": "https://github.com/MohamedElgharbawy/p-cubed#readme",
   "dependencies": {
+    "csv-parse": "^5.3.8",
+    "d3-fetch": "^3.0.1",
     "express": "^4.18.2",
-    "firebase": "^9.19.1"
+    "firebase": "^9.19.1",
+    "jquery-csv": "^1.0.21",
+    "python-shell": "^5.0.0"
   },
   "type": "module"
 }

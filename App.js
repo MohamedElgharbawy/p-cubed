@@ -2,6 +2,7 @@
 //if these cause errors, be sure you've installed them, ex: 'npm install express'
 import express from 'express';
 import path from 'path';
+import {PythonShell} from 'python-shell';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -32,6 +33,36 @@ app.get('/', function (req, res) {
 app.get('/login', function (req, res) {
     res.sendFile(publicPath + '/html/login.html');
 });
+
+//run python matching code, and send back the assignment result
+app.get("/assign", (req, res, next)=>{
+
+    let pyshell = new PythonShell('python/run_assign.py', {
+        mode: 'json'
+    });
+    let output = '';
+    pyshell.stdout.on('data', function (data) {
+        output += '' + data;
+    });
+    pyshell.send(req.query).end(function (err) {
+        if (err) throw err;
+        console.log(output)
+        res.send(output)
+    });
+
+
+    //const data = req.query;
+
+    //pyshell.send(JSON.stringify(data), { mode: 'json' });
+
+    //pyshell.on('message', results => {
+    //console.log(results);
+    //res.send(results);
+    //});
+
+    //pyshell.end(err => {
+    //if (err) res.send("Error : ", err);
+    //});
 
 app.get('/add_new_course_popup', function (req, res) {
     res.sendFile(publicPath + '/html/add_new_course_popup.html');
