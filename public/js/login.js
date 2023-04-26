@@ -1,4 +1,4 @@
-import { signInGoogle, signOutGoogle } from "./googleAuth.js";
+import { signInGoogle, signOutGoogle } from "./auth.js";
 
-document.getElementById('signInButton').addEventListener('click', signInGoogle);
-document.getElementById('signOutButton').addEventListener('click', signOutGoogle);
+$('#signInButton').on('click', signInGoogle);
+$('signOutButton').on('click', signOutGoogle);
