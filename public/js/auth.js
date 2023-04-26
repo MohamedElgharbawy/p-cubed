@@ -1,6 +1,6 @@
-import { firebaseApp, db } from '../firebase/config.js'
-import { getAuth, signInWithPopup, GoogleAuthProvider, signOut } from 'https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js'
-import { doc, getDoc, setDoc } from 'https://www.gstatic.com/firebasejs/9.19.1/firebase-firestore.js'
+import { getAuth, signInWithPopup, GoogleAuthProvider, signOut } from 'https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js';
+import { doc, getDoc, setDoc } from 'https://www.gstatic.com/firebasejs/9.19.1/firebase-firestore.js';
+import { firebaseApp, db } from '../firebase/config.js';
 
 function signInGoogle() {
     const provider = new GoogleAuthProvider();
@@ -28,7 +28,7 @@ function signInGoogle() {
                 await setDoc(userRef, account, { merge: true });
             }
 
-            location.href = '/';
+            window.location.href = '/';
         }).catch((error) => {
             console.log(error);
             // Handle Errors here.
@@ -43,9 +43,33 @@ function signOutGoogle() {
     const auth = getAuth();
     signOut(auth).then(() => {
         console.log("signout successful");
+        window.location.href = '/login';
     }).catch((error) => {
         console.log("signout failed");
     });
 }
 
-export { signInGoogle, signOutGoogle };
+function withUser(asyncFunc) {
+    const auth = getAuth();
+    return new Promise((resolve, reject) => {
+        let unsubscribe = auth.onAuthStateChanged(async (user) => {
+            if (user) {
+                await asyncFunc(user);
+                resolve(unsubscribe);
+            } else {
+                reject(unsubscribe);
+            }
+        });
+    }).then(
+        (unsubscribe) => {
+            unsubscribe();
+        },
+        (unsubscribe) => {
+            unsubscribe();
+            console.log("User is null");
+            window.location.href = '/login';
+        }
+    );
+}
+
+export { signInGoogle, signOutGoogle, withUser };

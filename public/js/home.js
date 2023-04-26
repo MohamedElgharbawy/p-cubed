@@ -1,49 +1,14 @@
-import { getCourses, addCourse, deleteCourse } from "./courses.js"
+import { getCourse, addCourse, deleteCourse, testAuthStuff, getCurrentCourseUUID, getCurrentCourse } from "./courses.js";
+import { signOutGoogle } from "./auth.js";
 
-function printCourses() {
-    getCourses().then(function (courses) {
-        console.log(typeof courses)
-        console.log(courses);
-    });
-}
 
-function addRandomCourse() {
-    let number = Math.floor(Math.random() * 100) + 1;
-    let name = "TS";
-    let term = "Spring 202" + (Math.floor(Math.random() * 4)).toString();
-    addCourse(number, name, term);
-}
+$(window).on("load", async () => {
+    console.log("course uuid: " + getCurrentCourseUUID());
+    let course = await getCurrentCourse();
+    console.log(course);
 
-function updateCoursesDisplay() {
-    getCourses().then(function (courses) {
-        console.log(courses);
-        var termToCourse = {};
-        for (let i = 0; i < courses.length; i++) {
-            if (!termToCourse[courses[i].term]) {
-                termToCourse[courses[i].term] = []
-            }
-            termToCourse[courses[i].term].push(courses[i]);
-        }
-
-        for (const [term, tc] of Object.entries(termToCourse)) {
-            console.log(term);
-            console.log(tc);
-        }
-    });
-}
-
-document.getElementById('printCourses').addEventListener('click', printCourses)
-document.getElementById('addRandomCourse').addEventListener('click', addRandomCourse)
-document.getElementById('updateDisplay').addEventListener('click', updateCoursesDisplay)
-
-$('#assignPref').on('click', function() {
-    $.ajax({
-      type: 'GET',
-      url: '/assign',
-      dataType: 'json',
-      data: { 'file_p': 'asset/pcubed_sample_student_pref.csv' },
-      success: function(resultData) {
-         console.log(resultData);
-      }
-    });
+    $(".classNumberText").text(course.number);
+    $(".classTermText").text(course.term);
+    $(".classNameText").text(course.name);
 });
+

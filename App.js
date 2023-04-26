@@ -27,7 +27,15 @@ router.get("/", function (req, res) {
 
 //depending on what url extension the user navigates to, send them the respective html file.
 app.get('/', function (req, res) {
-    res.sendFile(publicPath + '/html/home.html');
+    res.sendFile(publicPath + '/html/courseSelect.html');
+});
+
+app.get('/course/:courseID/:page', function (req, res) {
+    if (req.params.page === "home") {
+        res.sendFile(publicPath + '/html/home.html');
+    } else {
+        res.sendFile(publicPath + '/html/schedules.html');
+    }
 });
 
 app.get('/login', function (req, res) {
