@@ -2,6 +2,7 @@ import { getAuth } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-auth
 import { doc, setDoc, getDoc, updateDoc, deleteDoc, arrayUnion, arrayRemove } from 'https://www.gstatic.com/firebasejs/9.19.1/firebase-firestore.js';
 import { firebaseApp, db } from '../firebase/config.js';
 import { withUser } from "./auth.js";
+import { getUUID } from './utils.js';
 
 async function testAuthStuff(number, name, term) {
     let uid = 0;
@@ -12,11 +13,10 @@ async function testAuthStuff(number, name, term) {
     console.log('  again ' + uid + ' ' + getUUID());
 }
 
-
 async function addCourse(number, name, term) {
     await withUser(async (user) => {
         const courseUUID = getUUID();
-        const courseReadableID = getReadableID();
+        const courseReadableID = getCourseHrefId();
         const course = {
             uuid: courseUUID,
             readableID: courseReadableID,
@@ -105,13 +105,9 @@ async function getCurrentCourse() {
     return course;
 }
 
-function getUUID() {
-    return Date.now().toString(36) + Math.random().toString(36).substring(2);
-}
-
-function getReadableID() {
+function getCourseHrefId() {
     // Random ten digits
     return Math.floor(Math.random() * 10000000000);
 }
 
-export { addCourse, deleteCourse, getCourses, testAuthStuff, getCourse, getCurrentCourseUUID, getCurrentCourse };
+export { addCourse, deleteCourse, getCourses, testAuthStuff, getCourse, getCurrentCourseUUID, getCurrentCourse }
