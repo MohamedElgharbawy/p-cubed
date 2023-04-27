@@ -134,40 +134,30 @@ function gapiLoaded() {
 }
 
 async function createForm() {
-    // const details = {
-    //     title: "CS 12 TA Assignment Form",
-    //     description: "Fill out as many sections as possible"
-    // }
-    // const result = await createGoogleForm(details);
-    // console.log(result);
-    // console.log(result["formId"]);
-    // console.log(result["formUrl"]);
-    // let token = getCookie("token");
-    // $.ajax({
-    //     type: 'GET',
-    //     url: '/formAPI',
-    //     dataType: 'json',
-    //     data: { 'token': token, 'title': 'CS 12 TA Assignment Form' },
-    //     success: function (resultData) {
-    //         console.log(resultData);
-    //     }
-    // });
-    // let token = getCookie('token');
-    // console.log(gapi.client)
-    // gapi.client.setToken({
-    //     access_token: token
-    // })
-    // var request = gapi.client.request(JSON.stringify({
-    //     path: `https://forms.googleapis.com/forms/v1/forms`,
-    //     method: 'POST',
-    //     body: {
-    //         info: {
-    //             title: req.query['title']
-    //         }
-    //     }
-    // }))
-    // request.execute(printViews);
-    await createGoogleForm({})
+    const formDetails = {
+        'title': "CS 12 Assignment Form (LOST Section)",
+        'description': "Please select as many sections as possible!",
+        'sections': [
+            {
+                'day': "Mon",
+                'startTime': "2:00pm",
+                'endTime': "3:00pm"
+            },
+            {
+                'day': "Mon",
+                'startTime': "3:00pm",
+                'endTime': "4:00pm"
+            },
+            {
+                'day': "Tue",
+                'startTime': "1:30pm",
+                'endTime': "2:30pm"
+            },
+        ]
+    }
+    const result = await createGoogleForm(formDetails)
+    console.log(result['formUrl'])
+    window.open(result['formUrl'], '_blank');
 }
 
 $('#printCourses').on('click', printCourses);
