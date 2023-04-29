@@ -1,8 +1,7 @@
+import { signOutGoogle } from "./auth.js";
 import { getCourses, addCourse, deleteCourse, testAuthStuff } from "./courses.js";
 import { createGoogleSheet } from "./sheets.js";
-import { createGoogleForm } from "./forms.js";
-import { signOutGoogle } from "./auth.js";
-import { getCookie } from './utils.js';
+import { createGoogleForm, getGoogleFormResponses } from "./forms.js";
 
 async function printCourses() {
     let courses = await getCourses();
@@ -156,8 +155,13 @@ async function createForm() {
         ]
     }
     const result = await createGoogleForm(formDetails)
+    console.log(result['formId'])
     console.log(result['formUrl'])
     window.open(result['formUrl'], '_blank');
+}
+
+async function getForm() {
+    const result = await getGoogleFormResponses("12yHI4jgUl5RVE9rKvqQJ36USEh3eFuFMLBRSuDzxeI8")
 }
 
 $('#printCourses').on('click', printCourses);
@@ -170,5 +174,6 @@ $('#confirmAddCourse').on('click', confirmAddCourse);
 $('#cancelAddCourse').on('click', cancelAddCourse);
 $('#createSpreadsheet').on('click', createSheet);
 $('#createForm').on('click', createForm);
+$('#getForm').on('click', getForm);
 
 $(window).on("load", updateCoursesDisplay);
