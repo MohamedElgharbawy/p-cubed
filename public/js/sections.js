@@ -38,10 +38,12 @@ async function updateSection(section) {
 }
 
 async function getSection(sectionId) {
+    var section = null; 
     await withUser(async (_) => {
-        const sectionRef = doc(db, 'sections', sectionId)
-        return await getDoc(sectionRef)
+        const sectionRef = doc(db, 'sections', sectionId);
+        section = await getDoc(sectionRef);
     });
+    return section;
 }
 
 async function deleteSection(courseId, sectionType, sectionId) {
