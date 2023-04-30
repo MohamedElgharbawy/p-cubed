@@ -32,6 +32,8 @@ app.get('/', function (req, res) {
 app.get('/course/:courseID/:page', function (req, res) {
     if (req.params.page === "home") {
         res.sendFile(publicPath + '/html/home.html');
+    } else if (req.params.page === "createForm") {
+        res.sendFile(publicPath + '/html/createForm.html');
     } else {
         res.sendFile(publicPath + '/html/schedules.html');
     }
