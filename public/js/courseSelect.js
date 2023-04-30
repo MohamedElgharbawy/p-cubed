@@ -37,10 +37,11 @@ async function confirmAddCourse() {
     if (number && name && term && year) {
         await addCourse(number, name, term + " " + year);
         updateCoursesDisplay();
+        clearCourseInput();
     }
 }
 
-function cancelAddCourse() {
+function clearCourseInput() {
     $("#courseNumberInput").val("");
     $("#courseNameInput").val("");
     $("#courseTermInput").val("");
@@ -49,6 +50,7 @@ function cancelAddCourse() {
 
 async function updateCoursesDisplay() {
     let courses = await getCourses();
+
     console.log(courses);
     var termToCourses = new Map();
     for (const course of courses) {
@@ -171,7 +173,7 @@ $('#updateDisplay').on('click', updateCoursesDisplay);
 $('#assignPref').on('click', assignPreference);
 $('#deleteAllCourses').on('click', deleteAllCourses);
 $('#confirmAddCourse').on('click', confirmAddCourse);
-$('#cancelAddCourse').on('click', cancelAddCourse);
+$('#cancelAddCourse').on('click', clearCourseInput);
 $('#createSpreadsheet').on('click', createSheet);
 $('#createForm').on('click', createForm);
 $('#getForm').on('click', getForm);

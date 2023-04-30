@@ -1,4 +1,4 @@
-import { getCourse, addCourse, deleteCourse, testAuthStuff, getCurrentCourseUUID, getCurrentCourse } from "./courses.js";
+import { getCourse, addCourse, deleteCourse, testAuthStuff, getCurrentCourseUUID, getCurrentCourse, setCurrentCourseCookie, setCurrentCourseTextsFromCookie } from "./courses.js";
 import { signOutGoogle } from "./auth.js";
 
 
@@ -26,6 +26,8 @@ function getSchduleTypeDisplayString(scheduleType) {
 }
 
 $(window).on("load", async () => {
+    setCurrentCourseTextsFromCookie();
+
     let scheduleType = getCurrentScheduleType();
     let scheduleTypeDisplayStr = getSchduleTypeDisplayString(scheduleType);
     console.log(scheduleType);
@@ -35,6 +37,7 @@ $(window).on("load", async () => {
 
     console.log("course uuid: " + getCurrentCourseUUID());
     let course = await getCurrentCourse();
+    setCurrentCourseCookie(course);
     console.log(course);
 
     $(".classNumberText").text(course.number);
