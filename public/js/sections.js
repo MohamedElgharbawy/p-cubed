@@ -31,23 +31,29 @@ async function addSection(courseId, sectionType, sectionName) {
 }
 
 async function updateSection(section) {
-    const sectionRef = doc(db, 'sections', section.uuid);
-    await updateDoc(sectionRef, section);
+    await withUser(async (_) => {
+        const sectionRef = doc(db, 'sections', section.uuid);
+        await updateDoc(sectionRef, section);
+    });
 }
 
 async function getSection(sectionId) {
-    const sectionRef = doc(db, 'sections', sectionId)
-    return await getDoc(sectionRef)
+    await withUser(async (_) => {
+        const sectionRef = doc(db, 'sections', sectionId)
+        return await getDoc(sectionRef)
+    });
 }
 
 async function deleteSection(courseId, sectionType, sectionId) {
-    const courseRef = doc(db, 'courses', courseId);
-    await updateDoc(courseRef, {
-        [sectionType]: arrayRemove(sectionId)
-    });
+    await withUser(async (_) => {
+        const courseRef = doc(db, 'courses', courseId);
+        await updateDoc(courseRef, {
+            [sectionType]: arrayRemove(sectionId)
+        });
 
-    const sectionRef = doc(db, 'sections', sectionId)
-    await deleteDoc(sectionRef)
+        const sectionRef = doc(db, 'sections', sectionId)
+        await deleteDoc(sectionRef)
+    });
 }
 
 export { addSection, updateSection, getSection, deleteSection }
