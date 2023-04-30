@@ -4,7 +4,7 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const PythonShell = require('python-shell');
-const fetch = require("node-fetch");
+// const fetch = require("node-fetch");
 
 const app = express();
 app.use(cors());
@@ -58,39 +58,39 @@ app.get("/assign", (req, res, next)=>{
     });
 });
 
-app.get('/add_new_course_popup', function (req, res) {
-    res.sendFile(publicPath + '/html/add_new_course_popup.html');
-});
+// app.get('/add_new_course_popup', function (req, res) {
+//     res.sendFile(publicPath + '/html/add_new_course_popup.html');
+// });
 
-// Google Form API Request
-app.get("/formAPI", async (req, res, next) => {
-    let token = req.query["token"]
+// // Google Form API Request
+// app.get("/formAPI", async (req, res, next) => {
+//     let token = req.query["token"]
 
-    const formUrl = `https://forms.googleapis.com/forms/v1/forms`
+//     const formUrl = `https://forms.googleapis.com/forms/v1/forms`
 
-    // Use the ID token to authenticate with the Google Drive API
-    const response = await fetch(formUrl, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            // 'Access-Control-Allow-Origin': '*',
-            // 'Access-Control-Allow-Methods': 'POST,PATCH,OPTIONS',
-            'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({
-            info: {
-                title: req.query['title']
-            },
-            items: [
-                {
-                    textItem: "test"
-                }
-            ]
-        }),
-    });
-    await response.json();
-    res.send(response);
-});
+//     // Use the ID token to authenticate with the Google Drive API
+//     const response = await fetch(formUrl, {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json',
+//             // 'Access-Control-Allow-Origin': '*',
+//             // 'Access-Control-Allow-Methods': 'POST,PATCH,OPTIONS',
+//             'Authorization': `Bearer ${token}`
+//         },
+//         body: JSON.stringify({
+//             info: {
+//                 title: req.query['title']
+//             },
+//             items: [
+//                 {
+//                     textItem: "test"
+//                 }
+//             ]
+//         }),
+//     });
+//     await response.json();
+//     res.send(response);
+// });
 
 
 //run this server by entering "node App.js" using your command line. 

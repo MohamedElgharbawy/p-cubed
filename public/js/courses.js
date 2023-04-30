@@ -77,6 +77,45 @@ async function getCourses() {
     return courses;
 }
 
+function setCookie(name, value, daysToLive) {
+    var cookie = name + "=" + encodeURIComponent(value);
+    cookie += "; path=/";
+    cookie += "; max-age=" + (daysToLive*24*60*60);
+    document.cookie = cookie;
+}
+
+function getCookie(name) {
+    var cookieArr = document.cookie.split(";");
+    for(var i = 0; i < cookieArr.length; i++) {
+        var cookiePair = cookieArr[i].split("=");
+        if(name == cookiePair[0].trim()) {
+            return decodeURIComponent(cookiePair[1]);
+        }
+    }
+    return null;
+}
+
+function setCurrentCourseCookie(course) {
+    setCookie("cnumber", course.number, 4);
+    setCookie("cterm", course.term, 4);
+    setCookie("cname", course.name, 4);
+}
+
+function setCurrentCourseTextsFromCookie() {
+    let cnumber = getCookie('cnumber');
+    let cterm = getCookie('cterm');
+    let cname = getCookie('cname');
+    if (cnumber) {
+        $(".classNumberText").text(cnumber);
+    }
+    if (cterm) {
+        $(".classTermText").text(cterm);
+    }
+    if (cname) {
+        $(".classNameText").text(cname);
+    }
+}
+
 async function getCourse(courseUUID) {
     let courses = await getCourses();
     for (let course of courses) {
@@ -110,4 +149,4 @@ function getCourseHrefId() {
     return Math.floor(Math.random() * 10000000000);
 }
 
-export { addCourse, deleteCourse, getCourses, testAuthStuff, getCourse, getCurrentCourseUUID, getCurrentCourse }
+export { addCourse, deleteCourse, getCourses, testAuthStuff, getCourse, getCurrentCourseUUID, getCurrentCourse, setCurrentCourseCookie, setCurrentCourseTextsFromCookie }

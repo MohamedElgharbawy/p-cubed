@@ -50,6 +50,7 @@ function clearCourseInput() {
 
 async function updateCoursesDisplay() {
     let courses = await getCourses();
+
     console.log(courses);
     var termToCourses = new Map();
     for (const course of courses) {

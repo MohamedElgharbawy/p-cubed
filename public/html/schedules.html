@@ -61,9 +61,143 @@
 
           <!-- Content content -->
           <div class="row row-cols-3 pt-5 g-5">
+            <!-- Filled in -->
             <div class="col">
-              <div class="bg-light-grey text-center py-5">
-                + Add Discussion
+              <div class="card h-100 border-secondary">
+                <h5 class="card-header border-secondary">
+                  Standard Discussion
+                </h5>
+                <div class="card-body">
+                  <div class="row text-center">
+                    <div class="col">
+                      <h5>TA</h5>
+                    </div>
+                    <div class="col">
+                      <h5>Student</h5>
+                    </div>
+                  </div>
+                  <div class="row text-center mb-1">
+                    <div class="col">
+                      <a href="#" class="btn btn-light border-secondary w-75">Form</a>
+                    </div>
+                    <div class="col">
+                      <a href="#" class="btn btn-light border-secondary w-75">Form</a>
+                    </div>
+                  </div>
+                  <div class="row text-center mb-1">
+                    <div class="col">
+                      <a href="#" class="btn btn-light border-secondary w-75">Sheet</a>
+                    </div>
+                    <div class="col">
+                      <a href="#" class="btn btn-light border-secondary w-75">Sheet</a>
+                    </div>
+                  </div>
+                  <div class="row text-center mb-1">
+                    <div class="col">
+                      <button class="btn btn-light border-secondary w-75" data-bs-toggle="modal" data-bs-target="#assignModal">Assign</button>
+                    </div>
+                    <div class="col">
+                      <button class="btn btn-light border-secondary w-75" data-bs-toggle="modal" data-bs-target="#assignModal">Assign</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-footer text-end border-secondary">
+                  <button class="btn btn-danger py-0" data-bs-toggle="modal" data-bs-target="#deleteSectionModal">Delete</button>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Add new -->
+            <div class="col">
+              <div class="card h-100">
+                <button class="btn btn-light h-100 fs-3">+ Add New</button>
+              </div>
+            </div>
+
+            <!-- Enter name -->
+            <div class="col">
+              <div class="card h-100">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                      <div class="form-group">
+                        <label for="course-number" class="col-form-label">Enter Section Name</label>
+                        <input type="text" class="form-control" name="sectionNameInput" id="sectionNameInput"/>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <div class="row p-0 m-0">
+                    <div class="col p-0 m-0">
+                      <button id="cancelAddSection" type="button" class="btn btn-secondary py-0">Cancel</button>
+                    </div>
+                    <div class="col p-0 m-0 text-end">
+                      <button id="confirmAddsection" type="button" class="btn btn-primary py-0">Add</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Delete section modal -->
+            <div class="modal" id="deleteSectionModal" tabindex="-1" role="dialog">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <!-- <div class="modal-header">
+                    <h5 class="modal-title" id="addCourseModalLabel">Deleting a section!</h5>
+                  </div> -->
+                  <div class="modal-body">
+                    Are you sure you want to delete Standard Section? This action cannot be undone!
+                  </div>
+                  <div class="modal-footer justify-content-between">
+                    <button id="cancelDeleteSection" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button id="confirmDeleteSection" type="button" class="btn btn-danger" data-bs-dismiss="modal">Delete</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Assign modal -->
+            <div class="modal" id="assignModal" tabindex="-1" role="dialog">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="addCourseModalLabel">Assign TAs</h5>
+                  </div>
+                  <div class="modal-body">
+                    <!-- heading -->
+                    <div class="row">
+                      <div class="col-7">
+                        <h5>Section</h5>
+                      </div>
+                      <div class="col-5">
+                        <h5>Num TAs</h5>
+                      </div>
+                    </div>
+                    <!-- times -->
+                    <div class="row mb-1">
+                      <div class="col-7">
+                        <span class="fw-bold fs-5">Mon</span><span class="fs-5"> 2:00pm-3:00pm</span>
+                      </div>
+                      <div class="col-5">
+                        <input type="text" class="form-control" name="sectionTime1Num" id="sectionTime1Num"/>
+                      </div>
+                    </div>
+                    <div class="row mb-1">
+                      <div class="col-7">
+                        <span class="fw-bold fs-5">Tue</span><span class="fs-5"> 10:00am-11:00am</span>
+                      </div>
+                      <div class="col-5">
+                        <input type="text" class="form-control" name="sectionTime1Num" id="sectionTime1Num"/>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal-footer justify-content-between">
+                    <button id="cancelDeleteSection" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button id="confirmDeleteSection" type="button" class="btn btn-primary" data-bs-dismiss="modal">Assign</button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
