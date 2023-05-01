@@ -1,3 +1,11 @@
 .bg-light-grey {
     background-color: #EFEFEF;
 }
+
+.border-grey {
+    border-color: #BFBFBF;
+}
+
+.w-90 {
+    width: 90%;
+}

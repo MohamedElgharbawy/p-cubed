@@ -3,8 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Home</title>
+  <title>Create Form</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@eonasdan/tempus-dominus@6.7.7/dist/css/tempus-dominus.min.css" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
   <link rel="stylesheet" type="text/css" href="/css/styles.css">
 </head>
 
@@ -14,29 +16,47 @@
       <!-- Sidebar -->
       <div class="col-2 px-0 bg-light-grey">
         <div class="d-flex flex-column px-3 pt-2 min-vh-100">
-          <div class="border-bottom border-dark">
-            <img src="/images/logo.jpg" class="w-25"/>
-            <h2 class="classNumberText pt-2 fw-bold">Create Form</h2> 
-            <h5 class="classTermText">Term</h4>
+          <div class="border-bottom border-dark mb-2">
+            <a href="/">
+              <img src="/images/logo.jpg" class="w-25"/>
+            </a>
+            <br/>
+            <h2 class="classNumberText pt-2 fw-bold">Number</h2> 
+            <h5>
+              <span class="classNameText">Name</span><span>&nbsp;(</span><span class="classTermText">Term</span><span>)</span>
+            </h5>
           </div>
-          <ul class="nav flex-column pt-1">
+          <ul class="nav flex-column border-bottom border-dark fs-5">
             <li class="nav-item active">
-              <a href="#" class="navButtonHome nav-link px-0 py-1 text-dark fw-bold">Home</a>
+              <a href="#" class="navButtonHome nav-link px-0 py-1 text-dark">Home</a>
             </li>
             <li class="nav-item">
-              <a href="#" class="navButtonDiscussion nav-link px-0 py-1 text-dark">Discussions</a>
+              <a href="#" id="navbardiscussions" class="navButtonDiscussion nav-link px-0 py-1 text-dark">Discussions</a>
             </li>
             <li class="nav-item">
-              <a href="#" class="navButtonOH nav-link px-0 py-1 text-dark">Office Hours</a>
+              <a href="#" id="navbaroh" class="navButtonOH nav-link px-0 py-1 text-dark">Office Hours</a>
             </li>
             <li class="nav-item">
-              <a href="#" class="navButtonHWP nav-link px-0 py-1 text-dark">HW Parties</a>
+              <a href="#" id="navbarhwparties" class="navButtonHWP nav-link px-0 py-1 text-dark">HW Parties</a>
             </li>
             <li class="nav-item">
-              <a href="#" class="navButtonLab nav-link px-0 py-1 text-dark">Labs</a>
+              <a href="#" id="navbarlabs" class="navButtonLab nav-link px-0 py-1 text-dark">Labs</a>
             </li>
             <li class="nav-item">
-              <a href="#" class="navButtonMisc nav-link px-0 py-1 text-dark">Misc</a>
+              <a href="#" id="navbarmisc" class="navButtonMisc nav-link px-0 py-1 text-dark">Misc</a>
+            </li>
+          </ul>
+          <ul class="nav flex-column p-1 border-bottom border-dark fs-5">
+            <li class="nav-item active">
+              <a href="#" class="navButtonSettings nav-link px-0 py-1 text-dark"><i class="bi bi-gear"></i> Settings</a>
+            </li>
+          </ul>
+          <ul class="nav flex-column pt-1 fs-5">
+            <li class="nav-item">
+              <a href="#" id="navbarcourseselect" class="nav-link px-0 py-1 text-dark"><i class="bi bi-grid"></i> Course Select</a>
+            </li>
+            <li class="nav-item">
+              <a href="#" id="navbarsignout" class="nav-link px-0 py-1 text-dark"><i class="bi bi-box-arrow-left"></i> Sign Out</a>
             </li>
           </ul>
         </div>
@@ -48,14 +68,12 @@
           <!-- Content Heading -->
           <div class="row">
             <div class="col">
-              <span class="classNumberText fs-1 fw-bold border-end border-dark pe-4 me-3">Number</span>
-              <span class="classTermText fs-3">Term</span>
+              <span class="fs-1 fw-bold pe-4 me-3">Create Form (TA)</span>
             </div>
           </div>
           <div class="row border-bottom border-dark">
             <div class="col">
-              <span class="fs-3 fw-bold pe-4 me-5">Home</span>
-              <span class="classNameText fs-5 ms-3">Name</span>
+              <span class="fs-3 fw-bold pe-4 me-5">LOST Section (Discussion)</span>
             </div>
           </div>
 
@@ -64,7 +82,7 @@
       <form>
         <div class="form-group">
           <label for="exampleFormControlInput1">Title:</label>
-          <input type="form" class="form-control" id="exampleFormControlInput1" placeholder="class title">
+          <input type="form" class="form-control" id="exampleFormControlInput1" placeholder="Section Title">
         </div>
 
         <div class="form-group">
@@ -72,13 +90,13 @@
           <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
         </div>
 
-        <div class="row">
-          <div class="col"><label>TIMES:</label></div>
-          <div class="col"><label>START:</label></div>
-          <div class="col"><label>END:</label></div>
+        <div class="row mb-1">
+          <div class="col-3"><label>Times:</label></div>
+          <div class="col-3"><label>Start:</label></div>
+          <div class="col-3"><label>End:</label></div>
         </div>
-        <div class="row">
-          <div class="col">
+        <div class="row mb-1">
+          <div class="col-3">
             <select class="form-select">
               <option>Monday</option>
               <option>Tuesday</option>
@@ -89,11 +107,16 @@
               <option>Sunday</option>
             </select>
           </div>
-          <div class="col">
-              <input type="time" class="form-control" id="appt" name="appt" min="09:00" max="18:00" required> 
+          <div class="col-3">
+              <input type="text" class="form-control" id="starttimepicker1"/> 
           </div>
-          <div class="col">
-              <input type="time" class="form-control" id="appt" name="appt" min="09:00" max="18:00" required> 
+          <div class="col-3">
+              <input type="time" class="form-control" /> 
+          </div>
+        </div>
+        <div class="row mb-1">
+          <div class="col-4">
+            <button type="button" class="btn btn-secondary">+ Add New Time</button>
           </div>
         </div>
       </form>
@@ -104,7 +127,9 @@
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
-
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@eonasdan/tempus-dominus@6.7.7/dist/js/tempus-dominus.min.js" crossorigin="anonymous"></script>
   <script src="/js/navButtons.js" type="module"></script>
+  <script src="/js/createForm.js" type="module"></script>
 </body>
 </html>

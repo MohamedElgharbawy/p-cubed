@@ -1,4 +1,5 @@
 import { getCurrentCourseUUID } from "./courses.js";
+import { signOutGoogle } from "./auth.js";
 
 
 $(".navButtonHome").on("click", () => {
@@ -34,5 +35,15 @@ $(".navButtonLab").on("click", () => {
 $(".navButtonMisc").on("click", () => {
     let currentUUID = getCurrentCourseUUID();
     window.location.href = `/course/${currentUUID}/misc`;
+    return false;
+});
+
+$("#navbarcourseselect").on("click", () => {
+    window.location.href = `/`;
+    return false;
+});
+
+$("#navbarsignout").on("click", () => {
+    signOutGoogle();
     return false;
 });

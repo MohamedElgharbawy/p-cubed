@@ -2,6 +2,7 @@ import { signOutGoogle } from "./auth.js";
 import { getCourses, addCourse, deleteCourse, testAuthStuff } from "./courses.js";
 import { createGoogleForm, getGoogleFormResponses } from "./forms.js";
 import { createGoogleSheet, exportModelToSheets } from "./sheets.js";
+import { setUserPic } from "./userProfile.js";
 
 async function printCourses() {
     let courses = await getCourses();
@@ -20,7 +21,7 @@ async function deleteAllCourses() {
 
 async function addRandomCourse() {
     let number = "CS " + (Math.floor(Math.random() * 100) + 1).toString();
-    let name = "The course that teaches stuff.";
+    let name = "The course that teaches stuff";
     let term = "Spring 202" + (Math.floor(Math.random() * 4)).toString();
     await addCourse(number, name, term);
     updateCoursesDisplay();
@@ -53,24 +54,60 @@ async function updateCoursesDisplay() {
 
     console.log(courses);
     var termToCourses = new Map();
+    var terms = [];
     for (const course of courses) {
         let term = course.term;
         if (!termToCourses.has(term)) {
             termToCourses.set(term, []);
+            terms.push(term);
         }
         termToCourses.get(term).push(course);
     }
+    terms.sort((t1, t2) => {
+        let t1Season = t1.split(" ")[0];
+        let t1Year = parseInt(t1.split(" ")[1]);
+        let t2Season = t2.split(" ")[0];
+        let t2Year = parseInt(t2.split(" ")[1]);
+
+        if (t1Year !== t2Year) {
+            return t2Year - t1Year;
+        }
+
+        const seasonToNumber = {
+            "Winter": 0,
+            "Spring": 1,
+            "Summer": 2,
+            "Fall": 3,
+        };
+
+        return seasonToNumber[t2Season] - seasonToNumber[t1Season];
+    });
 
     let courseDiv = $('#displayedCourses').empty();
+    if (terms.length === 0) {
+        $(courseDiv).append(
+            `<div class="row row-cols-4 g-4 pb-3">
+                <div class="col">
+                    <div class="card h-100 border-grey">
+                        <button type="button" class="btn btn-light p-3 h-100" data-bs-toggle="modal" data-bs-target="#addCourseModal">
+                            <h4>+ Add New Course</h4>
+                        </button>
+                    </div>
+                </div>
+            </div>`
+        );
+        return;
+    }
 
-    for (const [term, tc] of termToCourses.entries()) {
+    for (const term of terms) {
+        let tc = termToCourses.get(term);
         console.log(term);
         console.log(tc);
 
         $(courseDiv).append(
             `<div class="row pb-1">
                 <div class="col-12">
-                    <h3>${term}</h3>
+                    <h2>${term}</h2>
                 </div>
             </div>`
         );
@@ -79,19 +116,20 @@ async function updateCoursesDisplay() {
         for (const course of tc) {
             $(termCoursesDiv).append(
                 `<div class="col">
-                    <div class="d-grid h-100">
-                        <a type="button" class="btn btn-outline-secondary p-3 h-100" href="/course/${course.uuid}/home">
+                    <div class="card h-100 border-grey">
+                        <a type="button" class="btn btn-light border-0 rounded-1 rounded-bottom-0 p-3 h-100 stretched-link" href="/course/${course.uuid}/home">
                             <h4>${course.number}</h4>
-                            <div>${course.name}</div>
+                            <span>${course.name}</span>
                         </a>
+                        <div class="card-footer bg-primary p-0" style="height:0.2em;"></div>
                     </div>
                 </div>`
             );
         }
         $(termCoursesDiv).append(
             `<div class="col">
-                <div class="d-grid h-100">
-                    <button type="button" class="btn btn-outline-secondary p-3 h-100" data-bs-toggle="modal" data-bs-target="#addCourseModal">
+                <div class="card h-100 border-grey">
+                    <button type="button" class="btn btn-light p-3 h-100" data-bs-toggle="modal" data-bs-target="#addCourseModal">
                         <h4>+ Add New Course</h4>
                     </button>
                 </div>
@@ -211,4 +249,7 @@ $('#getForm').on('click', getForm);
 $('#createSheet').on('click', createSheet);
 $('#exportModel').on('click', exportModel);
 
-$(window).on("load", updateCoursesDisplay);
+$(window).on("load", async () => {
+    setUserPic();
+    updateCoursesDisplay();
+});

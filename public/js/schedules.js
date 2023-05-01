@@ -35,7 +35,7 @@ function getSchduleTypeDisplayString(scheduleType) {
     if (scheduleType === "discussions") {
         return "Discussions";
     } else if (scheduleType === "oh") {
-        return "OH";
+        return "Office Hours";
     } else if (scheduleType === "hwparties") {
         return "HW Parties";
     } else if (scheduleType === "labs") {
@@ -45,6 +45,11 @@ function getSchduleTypeDisplayString(scheduleType) {
     }
 }
 
+$("#createFormButton").on("click", () => {
+    let currentUUID = getCurrentCourseUUID();
+    window.location.href = `/course/${currentUUID}/createForm`;
+})
+
 $(window).on("load", async () => {
     setCurrentCourseTextsFromCookie();
 
@@ -52,15 +57,15 @@ $(window).on("load", async () => {
     let scheduleTypeDisplayStr = getSchduleTypeDisplayString(scheduleType);
     console.log(scheduleType);
     $(document).attr("title", scheduleTypeDisplayStr);
-    $("#scheduleTypeText").text(scheduleTypeDisplayStr);
-    $(`#navbar${scheduleType}`).addClass("fw-bold");
+    $("#scheduleTypeText").removeClass('placeholder').text(scheduleTypeDisplayStr);
+    $(`#navbar${scheduleType}`).addClass("fw-bold text-decoration-underline");
 
     console.log("course uuid: " + getCurrentCourseUUID());
     let course = await getCurrentCourse();
     setCurrentCourseCookie(course);
     console.log(course);
 
-    $(".classNumberText").text(course.number);
-    $(".classTermText").text(course.term);
-    $(".classNameText").text(course.name);
+    $(".classNumberText").removeClass('placeholder').text(course.number);
+    $(".classTermText").removeClass('placeholder').text(course.term);
+    $(".classNameText").removeClass('placeholder').text(course.name);
 });
