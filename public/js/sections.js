@@ -70,6 +70,18 @@ async function addForm(sectionId, formId, sectionTimes, taOrStudent) {
     })
 }
 
+async function deleteForm(sectionId, taOrStudent) {
+    await withUser(async (_) => {
+        const sectionRef = doc(db, 'sections', sectionId);
+        await updateDoc(sectionRef, {
+            [taOrStudent]: {
+                formID: null
+            }
+        });
+    });
+}
+
+
 async function getFormId(sectionId, taOrStudent) {
     await withUser(async (_) => {
         const sectionRef = doc(db, 'sections', sectionId)
@@ -89,6 +101,17 @@ async function addSheets(sectionId, sheetsId, taOrStudent) {
     })
 }
 
+async function deleteSheets(sectionId, taOrStudent) {
+    await withUser(async (_) => {
+        const sectionRef = doc(db, 'sections', sectionId);
+        await updateDoc(sectionRef, {
+            [taOrStudent]: {
+                sheetsID: null
+            }
+        });
+    });
+}
+
 async function getSheetsId(sectionId, taOrStudent) {
     await withUser(async (_) => {
         const sectionRef = doc(db, 'sections', sectionId)
@@ -97,4 +120,5 @@ async function getSheetsId(sectionId, taOrStudent) {
     })
 }
 
-export { addSection, updateSection, getSection, deleteSection, addForm, getFormId, addSheets, getSheetsId }
+export { addSection, updateSection, getSection, deleteSection, addForm, 
+    getFormId, addSheets, getSheetsId, deleteForm, deleteSheets }
