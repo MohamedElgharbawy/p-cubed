@@ -2,6 +2,8 @@ import { doc, setDoc, getDoc, updateDoc, deleteDoc, arrayUnion, arrayRemove } fr
 import { firebaseApp, db } from '../firebase/config.js';
 import { withUser } from "./auth.js";
 import { getUUID } from './utils.js';
+import { createGoogleForm } from './forms.js'
+import { createGoogleSheet } from './sheets.js';
 
 async function addSection(courseId, sectionType, sectionName) {
     await withUser(async (_) => {
@@ -58,12 +60,22 @@ async function deleteSection(courseId, sectionType, sectionId) {
     });
 }
 
-async function addForm(sectionId, formId, sectionTimes, taOrStudent) {
+async function addForm(formDetails, sectionId, taOrStudent) {
     await withUser(async (_) => {
+        const formResult = await createGoogleForm(formDetails)
+
+        var sectionTimes = []
+        for (var i = 0; i < formDetails['sections'].length; i++) {
+            var section = formDetails['sections'][i]
+            var sectionTime = section["day"] + " " + section["startTime"] + "-" + section["endTime"]
+            sectionTimes.push(sectionTime)
+        }
+
         const sectionRef = doc(db, 'sections', sectionId)
         await updateDoc(sectionRef, {
             [taOrStudent]: {
-                formID: formId,
+                formID: formResult["formId"],
+                formUrl: formResult["formUrl"],
                 sectionTimes: sectionTimes
             }
         })
@@ -75,7 +87,8 @@ async function deleteForm(sectionId, taOrStudent) {
         const sectionRef = doc(db, 'sections', sectionId);
         await updateDoc(sectionRef, {
             [taOrStudent]: {
-                formID: null
+                formID: null,
+                formUrl: null
             }
         });
     });
@@ -90,26 +103,24 @@ async function getFormId(sectionId, taOrStudent) {
     })
 }
 
-async function addSheets(sectionId, sheetsId, taOrStudent) {
+async function addSheets(sheetsDetails, sectionId, taOrStudent) {
+    const sheetsResult = await createGoogleSheet(sheetsDetails)
+    
     await withUser(async (_) => {
         const sectionRef = doc(db, 'sections', sectionId)
+        if (taOrStudent == "ta") {
+            var sheetsID = sheetsResult["taSheetID"]
+        } else {
+            var sheetsID = sheetsResult["studentSheetID"]
+        }
         await updateDoc(sectionRef, {
             [taOrStudent]: {
-                sheetsID: sheetsId
+                spreadsheetID: sheetsResult["spreadsheetID"],
+                sheetsUrl: sheetsResult["spreadsheetUrl"],
+                sheetsID: sheetsID
             }
         })
     })
-}
-
-async function deleteSheets(sectionId, taOrStudent) {
-    await withUser(async (_) => {
-        const sectionRef = doc(db, 'sections', sectionId);
-        await updateDoc(sectionRef, {
-            [taOrStudent]: {
-                sheetsID: null
-            }
-        });
-    });
 }
 
 async function getSheetsId(sectionId, taOrStudent) {
@@ -121,4 +132,4 @@ async function getSheetsId(sectionId, taOrStudent) {
 }
 
 export { addSection, updateSection, getSection, deleteSection, addForm, 
-    getFormId, addSheets, getSheetsId, deleteForm, deleteSheets }
+    getFormId, addSheets, getSheetsId, deleteForm }
