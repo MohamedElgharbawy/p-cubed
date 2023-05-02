@@ -27,21 +27,21 @@ function getSchduleTypeDisplayString(scheduleType) {
 }
 
 
-new tempusDominus.TempusDominus(document.getElementById('starttimepicker1'), {
-  display: {
-    viewMode: 'clock',
-    components: {
-      decades: false,
-      year: false,
-      month: false,
-      date: false,
-      hours: true,
-      minutes: true,
-      seconds: false
-    },
-    theme: 'light'
-  }
-});
+// new tempusDominus.TempusDominus(document.getElementById('starttimepicker1'), {
+//   display: {
+//     viewMode: 'clock',
+//     components: {
+//       decades: false,
+//       year: false,
+//       month: false,
+//       date: false,
+//       hours: true,
+//       minutes: true,
+//       seconds: false
+//     },
+//     theme: 'light'
+//   }
+// });
 
 $(window).on("load", async () => {
     setCurrentCourseTextsFromCookie();
