@@ -43,7 +43,8 @@ async function getSection(sectionId) {
     var section = null; 
     await withUser(async (_) => {
         const sectionRef = doc(db, 'sections', sectionId);
-        section = await getDoc(sectionRef);
+        var sectionDoc = await getDoc(sectionRef);
+        section = sectionDoc.data();
     });
     return section;
 }
@@ -99,8 +100,8 @@ async function getFormId(sectionId, taOrStudent) {
     var result;
     await withUser(async (_) => {
         const sectionRef = doc(db, 'sections', sectionId)
-        const section = await getDoc(sectionRef)
-        result = section.data()[taOrStudent]["formID"]
+        const sectionDoc = await getDoc(sectionRef)
+        result = sectionDoc.data()[taOrStudent]["formID"]
     })
     return result;
 }

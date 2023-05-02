@@ -78,9 +78,9 @@
           </div>
 
           <!-- Content content -->
-          <div class="row row-cols-3 pt-5 g-5">
+          <div id="contentDiv" class="row row-cols-3 pt-5 g-5">
             <!-- Filled in -->
-            <div class="col">
+            <!-- <div class="col">
               <div class="card h-100 border-grey">
                 <div class="card-header py-1 border-grey">
                   <span class="fs-4 align-bottom">Standard Discussion</span>
@@ -124,10 +124,10 @@
                 </div>
                 <div class="card-footer bg-primary p-0" style="height:0.2em;"></div>
               </div>
-            </div>
+            </div> -->
 
             <!-- Half filled in -->
-            <div class="col">
+            <!-- <div class="col">
               <div class="card h-100 border-grey">
                 <div class="card-header py-1 border-grey">
                   <span class="fs-4 align-bottom">LOST Sections</span>
@@ -156,57 +156,117 @@
                     <div class="col-6">
                       <a href="#" class="btn btn-light border-grey w-90">Sheets <img class="float-end" src="/images/google-sheets.png" style="height:1.5em;"></a>
                     </div>
+                    <div class="col-6">
+                      <a href="#" class="btn btn-light border-grey w-90 disabled">Sheets <img class="float-end" src="/images/google-sheets.png" style="height:1.5em;"></a>
+                    </div>
                   </div>
                   <div class="row text-center mb-1">
                     <div class="col-6">
                       <button class="btn btn-light border-grey w-90" data-bs-toggle="modal" data-bs-target="#assignModal">Assign <i class="bi bi-person-gear float-end me-1"></i></button>
                     </div>
+                    <div class="col-6">
+                      <button class="btn btn-light border-grey w-90 disabled" data-bs-toggle="modal" data-bs-target="#assignModal">Assign <i class="bi bi-person-gear float-end me-1"></i></button>
+                    </div>
                   </div>
                 </div>
                 <div class="card-footer bg-primary p-0" style="height:0.2em;"></div>
               </div>
-            </div>
+            </div> -->
             
-            <!-- Add new -->
-            <div class="col">
+            <!-- Unfilled -->
+            <!-- <div class="col">
               <div class="card h-100 border-grey">
-                <button class="btn btn-light h-100 fs-3">+ Add New</button>
+                <div class="card-header py-1 border-grey">
+                  <span class="fs-4 align-bottom">LOST Sections</span>
+                  <button class="btn py-0 px-1 mt-0 mb-0 align-bottom text-danger float-end" data-bs-toggle="modal" data-bs-target="#deleteSectionModal">
+                    <i class="bi bi-trash3 fs-4 p-0 mt-0 mb-0"></i>
+                  </button>
+                </div>
+                <div class="card-body">
+                  <div class="row text-center">
+                    <div class="col-6">
+                      <h5>TA</h5>
+                    </div>
+                    <div class="col-6">
+                      <h5>Student</h5>
+                    </div>
+                  </div>
+                  <div class="row text-center mb-1">
+                    <div class="col-6">
+                      <button id="createFormButton" class="btn btn-light border-grey w-90">+ Create Form</button>
+                    </div>
+                    <div class="col-6">
+                      <button id="createFormButton" class="btn btn-light border-grey w-90">+ Create Form</button>
+                    </div>
+                  </div>
+                  <div class="row text-center mb-1">
+                    <div class="col-6">
+                      <a href="#" class="btn btn-light border-grey w-90 disabled">Sheets <img class="float-end" src="/images/google-sheets.png" style="height:1.5em;"></a>
+                    </div>
+                    <div class="col-6">
+                      <a href="#" class="btn btn-light border-grey w-90 disabled">Sheets <img class="float-end" src="/images/google-sheets.png" style="height:1.5em;"></a>
+                    </div>
+                  </div>
+                  <div class="row text-center mb-1">
+                    <div class="col-6">
+                      <button class="btn btn-light border-grey w-90 disabled" data-bs-toggle="modal" data-bs-target="#assignModal">Assign <i class="bi bi-person-gear float-end me-1"></i></button>
+                    </div>
+                    <div class="col-6">
+                      <button class="btn btn-light border-grey w-90 disabled" data-bs-toggle="modal" data-bs-target="#assignModal">Assign <i class="bi bi-person-gear float-end me-1"></i></button>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-footer bg-primary p-0" style="height:0.2em;"></div>
+              </div>
+            </div> -->
+
+            <!-- Loading placeholder -->
+            <div id="loadingPlaceholder" class="col">
+              <div class="card h-100">
+                <span class="card-body text-center fs-3">Loading sections...</span>
+              </div>
+            </div>
+
+            <!-- Add new -->
+            <div id="addNew" class="col">
+              <div class="card h-100 border-grey">
+                <button id="addNewButton" class="btn btn-light h-100 fs-3">+ Add New</button>
               </div>
             </div>
 
             <!-- Enter name -->
-            <!-- <div class="col">
+            <div id="addNewEnterName" class="col hidden">
               <div class="card h-100 border-grey">
                 <div class="card-body">
                   <div class="row">
                     <div class="col">
-                      <div class="form-group">
+                      <div class="form-group has-validation">
                         <label for="course-number" class="col-form-label">Enter Section Name</label>
                         <input type="text" class="form-control" name="sectionNameInput" id="sectionNameInput"/>
+                        <div id="sectionNameInputFeedback" class="invalid-feedback">
+                          Please provide a section name.
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
                 <div class="card-footer border-grey">
-                  <button id="cancelAddSection" type="button" class="btn btn-secondary py-0">Cancel</button>
-                  <button id="confirmAddsection" type="button" class="btn btn-primary py-0 float-end">Add</button>
+                  <button id="cancelAddSectionButton" type="button" class="btn btn-secondary py-0">Cancel</button>
+                  <button id="confirmAddSectionButton" type="button" class="btn btn-primary py-0 float-end">Add</button>
                 </div>
               </div>
-            </div> -->
+            </div>
 
             <!-- Delete section modal -->
             <div class="modal" id="deleteSectionModal" tabindex="-1" role="dialog">
               <div class="modal-dialog">
                 <div class="modal-content">
-                  <!-- <div class="modal-header">
-                    <h5 class="modal-title" id="addCourseModalLabel">Deleting a section!</h5>
-                  </div> -->
                   <div class="modal-body">
-                    Are you sure you want to delete Standard Section? This action cannot be undone!
+                    Are you sure you want to delete <span id="deleteSectionModalSectionName" class="fw-bold">Standard Section</span>? This action cannot be undone!</span>
                   </div>
                   <div class="modal-footer justify-content-between">
                     <button id="cancelDeleteSection" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button id="confirmDeleteSection" type="button" class="btn btn-danger" data-bs-dismiss="modal">Delete</button>
+                    <button id="confirmDeleteSection" type="button" class="btn btn-danger">Delete</button>
                   </div>
                 </div>
               </div>

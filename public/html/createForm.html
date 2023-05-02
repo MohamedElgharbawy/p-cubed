@@ -68,12 +68,12 @@
           <!-- Content Heading -->
           <div class="row">
             <div class="col">
-              <span class="fs-1 fw-bold pe-4 me-3">Create Form (TA)</span>
+              <span id="headingText1" class="fs-1 fw-bold pe-4 me-3">Create Form (TA)</span>
             </div>
           </div>
           <div class="row border-bottom border-dark">
             <div class="col">
-              <span class="fs-3 fw-bold pe-4 me-5">LOST Section (Discussion)</span>
+              <span id="headingText2" class="fs-3 fw-bold pe-4 me-5">LOST Section (Discussion)</span>
             </div>
           </div>
 
@@ -97,7 +97,7 @@
         </div>
         <div class="row mb-1">
           <div class="col-3">
-            <select class="form-select">
+            <select id="timeDay0" class="form-select">
               <option>Monday</option>
               <option>Tuesday</option>
               <option>Wednesday</option>
@@ -108,79 +108,26 @@
             </select>
           </div>
           <div class="col-3">
-              <input type="time" class="form-control"/> 
+            <input id="timeStart0" type="time" class="form-control"/> 
           </div>
           <div class="col-3">
-              <input type="time" class="form-control" /> 
+            <input id="timeEnd0" type="time" class="form-control" /> 
           </div>
+          <!-- <div class="col-3">
+            <button id="timeRemove1" type="button" class="btn-close pb-0"></button>
+          </div> -->
         </div>
-        <div class="row mb-1">
-          <div class="col-3">
-            <select class="form-select">
-              <option>Monday</option>
-              <option>Tuesday</option>
-              <option>Wednesday</option>
-              <option>Thursday</option>
-              <option>Friday</option>
-              <option>Saturday</option>
-              <option>Sunday</option>
-            </select>
-          </div>
-          <div class="col-3">
-              <input type="time" class="form-control"/> 
-          </div>
-          <div class="col-3">
-              <input type="time" class="form-control" /> 
-          </div>
-        </div>
-        <div class="row mb-1">
-          <div class="col-3">
-            <select class="form-select">
-              <option>Monday</option>
-              <option>Tuesday</option>
-              <option>Wednesday</option>
-              <option>Thursday</option>
-              <option>Friday</option>
-              <option>Saturday</option>
-              <option>Sunday</option>
-            </select>
-          </div>
-          <div class="col-3">
-              <input type="time" class="form-control"/> 
-          </div>
-          <div class="col-3">
-              <input type="time" class="form-control" /> 
-          </div>
-        </div>
-        <div class="row mb-1">
-          <div class="col-3">
-            <select class="form-select">
-              <option>Monday</option>
-              <option>Tuesday</option>
-              <option>Wednesday</option>
-              <option>Thursday</option>
-              <option>Friday</option>
-              <option>Saturday</option>
-              <option>Sunday</option>
-            </select>
-          </div>
-          <div class="col-3">
-              <input type="time" class="form-control"/> 
-          </div>
-          <div class="col-3">
-              <input type="time" class="form-control" /> 
-          </div>
-        </div>
-        <div class="row mb-1">
+        
+        <div id="addNewTimeButtonDiv" class="row mb-1">
           <div class="col-4">
-            <button type="button" class="btn btn-light border-grey">+ Add New Time</button>
+            <button id="addNewTimeButton" type="button" class="btn btn-light border-grey">+ Add New Time</button>
           </div>
         </div>
 
         <div class="row mt-2">
           <div class="col-12">
-            <button type="button" class="btn btn-secondary">Cancel</button>
-            <button type="button" class="btn btn-primary float-end">Create</button>
+            <button id="cancelButton" type="button" class="btn btn-secondary">Cancel</button>
+            <button id="createButton" type="button" class="btn btn-primary float-end">Create</button>
           </div>
         </div>
       </form>
