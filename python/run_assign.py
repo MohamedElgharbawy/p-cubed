@@ -4,7 +4,7 @@ from matching.games import HospitalResident
 
 def parse_student_csv(file_p):
     # student_preferences: Dict(str(student_id): ['section1', 'section2', ... (amount depending on student's availability -- varies)])
-    # section_preferences: Dict(str(section_name): ['01', '02', ... (section has no preferences, set it to be all students' id for all sections)])
+    # section_preferences: Dict(str(section_name): ['01', '02', ... (section chooses back students who include it in the pref)])
     # section_capacities: Dict(str(section_name): int -- room capacity)
 
     no_str = 'I have a schedule conflict which prevents me from attending other section times except for the one(s) listed as higher preferences'
@@ -61,6 +61,51 @@ def parse_student_csv(file_p):
         section_capa[section_pref.keys()[i]] += 1
 
     return student_pref, section_pref, section_capa
+
+def parse_input_pref(pref_in):
+    # student_preferences: Dict(str(student_id): ['section1', 'section2', ... (amount depending on student's availability -- varies)])
+    # section_preferences: Dict(str(section_name): ['01', '02', ... (section chooses back students who include it in the pref)])
+
+    student_pref = {}
+    section_pref = {}
+    sid_name_map = {}
+    
+    for student in pref_in:
+        name = student['Name']
+        sid = student['SID']
+        sid_name_map[sid] = name
+
+        student_pref[sid] = []
+        for k in student['Sections']:
+            if student['Sections'][k] == 'Highly prefer':
+                student_pref[sid].append(k)
+                if k not in section_pref:
+                    section_pref[k] = [sid]
+                else:
+                    section_pref[k].append(sid)
+            elif student['Sections'][k] == 'Can make it':
+                student_pref[sid].append(k)
+                if k not in section_pref:
+                    section_pref[k] = [sid]
+                else:
+                    section_pref[k].append(sid)
+            elif student['Sections'][k] == 'Do not prefer but can make it':
+                student_pref[sid].append(k)
+                if k not in section_pref:
+                    section_pref[k] = [sid]
+                else:
+                    section_pref[k].append(sid)           
+
+    return student_pref, section_pref, sid_name_map
+
+def format_output(matching, sid_name_map):
+    meta_matching = {}
+
+    for section, students in matching.items():
+        meta_matching[section] = [{'Name': sid_name_map[sid], 'SID': sid} for sid in students]
+    
+    return meta_matching
+
 
 def allocated_unmatched(matching, section_capa, student_lst):
     # allocate the unmatched
