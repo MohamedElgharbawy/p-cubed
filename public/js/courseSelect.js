@@ -111,7 +111,7 @@ $('#addCourseModal').on('show.bs.modal', function (event) {
     // modal.find('.modal-body input').val(recipient)
 });
 
-function assignPreference() {
+function Test_assignPreference() {
     $.ajax({
         type: 'GET',
         url: '/assign',
@@ -201,7 +201,7 @@ $('#printCourses').on('click', printCourses);
 $('#signout').on('click', signOutGoogle);
 $('#addRandomCourse').on('click', addRandomCourse);
 $('#updateDisplay').on('click', updateCoursesDisplay);
-$('#assignPref').on('click', assignPreference);
+$('#assignPref').on('click', Test_assignPreference);
 $('#deleteAllCourses').on('click', deleteAllCourses);
 $('#confirmAddCourse').on('click', confirmAddCourse);
 $('#cancelAddCourse').on('click', clearCourseInput);

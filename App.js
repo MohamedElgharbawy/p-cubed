@@ -3,7 +3,7 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-const PythonShell = require('python-shell');
+const {PythonShell} = require('python-shell');
 // const fetch = require("node-fetch");
 
 const app = express();

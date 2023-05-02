@@ -1,6 +1,26 @@
 import { getCourse, addCourse, deleteCourse, testAuthStuff, getCurrentCourseUUID, getCurrentCourse, setCurrentCourseCookie, setCurrentCourseTextsFromCookie } from "./courses.js";
 import { signOutGoogle } from "./auth.js";
+import { getFormId } from "./sections.js"
+import { getGoogleFormResponses } from "./forms.js"
 
+function assignPreference() {
+    let course = await getCurrentCourse();
+    console.log(course)
+    formID = getFormId(sectionId, taOrStudent)
+    pref_data = getGoogleFormResponses(formID)
+
+    $.ajax({
+        type: 'GET',
+        url: '/assign',
+        dataType: 'json',
+        data: { 'file_p': 'asset/pcubed_sample_student_pref.csv' },
+        success: function(resultData) {
+            console.log(resultData);
+        }
+    });
+}
+
+$('#confirmAssign').on('click', assignPreference);
 
 function getCurrentScheduleType() {
     let pathSplits = new URL(window.location.href).pathname.split("/");
@@ -44,4 +64,3 @@ $(window).on("load", async () => {
     $(".classTermText").text(course.term);
     $(".classNameText").text(course.name);
 });
-
