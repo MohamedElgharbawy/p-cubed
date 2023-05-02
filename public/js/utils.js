@@ -12,4 +12,4 @@ async function sleep(milliseconds) {
     await new Promise(r => setTimeout(r, milliseconds));
 }
 
-export {getUUID, getCookie}
+export {getUUID, getCookie, sleep}

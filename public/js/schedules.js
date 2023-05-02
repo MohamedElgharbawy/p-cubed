@@ -2,6 +2,7 @@ import { getCourse, addCourse, deleteCourse, testAuthStuff, getCurrentCourseUUID
 import { signOutGoogle } from "./auth.js";
 import { getFormId, addSection, getSection, deleteSection } from "./sections.js"
 import { getGoogleFormResponses } from "./forms.js"
+import { sleep } from "./utils.js"
 
 async function assignPreference() {
     let course = await getCurrentCourse();
@@ -76,37 +77,52 @@ $("#sectionNameInput").on("input", () => {
     $("#sectionNameInput").removeClass("is-invalid");
 })
 
-$("#deleteSectionModal").on("show.bs.modal", (event) => {
-    var modal = bootstrap.Modal.getInstance($("#deleteSectionModal"));
+var deleteSectionModal = new bootstrap.Modal("#deleteSectionModal");
+
+function createDeleteSectionButton(section) {
+    var button = $("<button/>", {"class": "btn py-0 px-1 mt-0 mb-0 align-bottom text-danger float-end"}).append(
+        $("<i></i>", {"class": "bi bi-trash3 fs-4 p-0 mt-0 mb-0"})
+    );
+
+    button.on("click", () => {
+        $("#deleteSectionModalSectionName").text(section.name);
+
+        $("#confirmDeleteSection").on("click", async () => {
+            $("#confirmDeleteSection").off("click");
+            $("#cancelDeleteSection").off("click");
     
-    console.log(event);
-    const sectionId = $(event.relatedTarget).attr("data-bs-sectionId");
-    const sectionName = $(event.relatedTarget).attr("data-bs-sectionName");
-    console.log(sectionId, sectionName);
-    $("#deleteSectionModalSectionName").text(sectionName);
+            $("#confirmDeleteSection").addClass("disabled");
+            $("#cancelDeleteSection").addClass("disabled");
+            deleteSectionModal._config.backdrop = "static";
+            deleteSectionModal._config.keyboard = false;
+            
+            await deleteSection(getCurrentCourseUUID(), getSchduleTypeCourseKey(getCurrentScheduleType()), section.uuid);
+            await updateSectionsDisplay();
+    
+            deleteSectionModal.hide();
+            $("#confirmDeleteSection").removeClass("disabled");
+            $("#cancelDeleteSection").removeClass("disabled");
+            deleteSectionModal._config.backdrop = true;
+            deleteSectionModal._config.keyboard = true;
+        });
 
-    $("#confirmDeleteSection").on("click", async () => {
-        $("#confirmDeleteSection").off("click");
+        $("#cancelDeleteSection").on("click", () => {
+            $("#confirmDeleteSection").off("click");
+            $("#cancelDeleteSection").off("click");
 
-        $("#confirmDeleteSection").addClass("disabled");
-        $("#cancelDeleteSection").addClass("disabled");
-        modal._config.backdrop = "static";
-        modal._config.keyboard = false;
-        
-        await deleteSection(getCurrentCourseUUID(), getSchduleTypeCourseKey(getCurrentScheduleType()), sectionId);
-        await updateSectionsDisplay();
+            deleteSectionModal.hide();
+        });
 
-        modal.hide();
-        $("#confirmDeleteSection").removeClass("disabled");
-        $("#cancelDeleteSection").removeClass("disabled");
-        modal._config.backdrop = true;
-        modal._config.keyboard = true;
-    })
-})
+        deleteSectionModal.show();
+    });
+
+    return button;
+}
+
 
 function createGoogleFormButton(section, taOrStudent) {
     if (section[taOrStudent].formId) {
-        return $('<a/>', {'class': "btn btn-light border-grey w-90", 'href': '#'}).append(
+        return $('<a/>', {'class': "btn btn-light border-grey w-90", "target": "_blank", "rel": "noopener noreferrer", 'href': section[taOrStudent].formUrl}).append(
             'Form <img class="float-end" src="/images/google-forms.png" style="height:1.5em;">'
         );
     } else {
@@ -121,7 +137,7 @@ function createGoogleFormButton(section, taOrStudent) {
 
 function createGoogleSheetsButton(section, taOrStudent) {
     if (section[taOrStudent].sheetsId) {
-        return $('<a/>', {'class': "btn btn-light border-grey w-90", 'href': '#'}).append(
+        return $('<a/>', {'class': "btn btn-light border-grey w-90", 'href': section[taOrStudent].sheetsUrl}).append(
             'Sheets <img class="float-end" src="/images/google-sheets.png" style="height:1.5em;">'
         );
     } else {
@@ -131,16 +147,79 @@ function createGoogleSheetsButton(section, taOrStudent) {
     }
 }
 
+var assignModal = new bootstrap.Modal("#assignModal");
+
+function createAssignButton(section, taOrStudent) {
+    const sectionTimes = section[taOrStudent].sectionTimes;
+    if (sectionTimes.length > 0) {
+        var assignButton = $("<button/>", {"class": "btn btn-light border-grey w-90"}).append(
+            'Assign <i class="bi bi-person-gear float-end me-1"></i>'
+        )
+        
+        assignButton.on("click", () => {
+            $(".assignModalTimeRow").remove();
+            
+            var ind = 0;
+            var prev = $("#assingModalSectionTimeHeading");
+            for (const sectionTime of sectionTimes) {
+                var newRow = $(
+                    `<div class="assignModalTimeRow row mb-1">
+                        <div class="col-8">
+                            <span class="fs-5">${sectionTime}</span>
+                        </div>
+                        <div class="col-4">
+                            <input type="text" class="form-control" id="sectionTime${ind}Num"/>
+                        </div>
+                    </div>`
+                )
+                prev.after(newRow);
+                prev = newRow;
+                ind += 1;
+            }
+
+            $("#confirmAssignButton").on("click", async () => {
+                $("#confirmAssignButton").off("click");
+                $("#cancelAssignButton").off("click");
+
+                $("#confirmAssignButton").addClass("disabled");
+                $("#cancelAssignButton").addClass("disabled");
+                assignModal._config.backdrop = "static";
+                assignModal._config.keyboard = false;
+                
+                // Calling assign backend
+                await sleep(2000);
+                await updateSectionsDisplay();
+
+                assignModal.hide();
+                $("#confirmAssignButton").removeClass("disabled");
+                $("#cancelAssignButton").removeClass("disabled");
+                assignModal._config.backdrop = true;
+                assignModal._config.keyboard = true;
+            });
+
+            $("#cancelAssignButton").on("click", async () => {
+                $("#confirmAssignButton").off("click");
+                $("#cancelAssignButton").off("click");
+
+                assignModal.hide();
+            });
+
+            assignModal.show();
+        })
+        return assignButton
+    } else {
+        return $("<button/>", {"class": "btn btn-light border-grey w-90 disabled"}).append(
+            'Assign <i class="bi bi-person-gear float-end me-1"></i>'
+        )
+    }
+}
+
 function createSectionDiv(section) {
     return $("<div/>", {"class": "col sectionDiv"}).append(
         $("<div/>", {"class": "card h-100 border-grey"}).append([
             $("<div/>", {"class": "card-header py-1 border-grey"}).append([
                 $("<span/>", {"class": "fs-4 align-bottom", "text": section.name}),
-                $("<button/>", {"class": "btn py-0 px-1 mt-0 mb-0 align-bottom text-danger float-end", 
-                                "data-bs-toggle": "modal", "data-bs-target": "#deleteSectionModal",
-                                "data-bs-sectionId": section.uuid, "data-bs-sectionName": section.name}).append(
-                    $("<i></i>", {"class": "bi bi-trash3 fs-4 p-0 mt-0 mb-0"})
-                ),
+                createDeleteSectionButton(section),
             ]),
             $("<div/>", {"class": "card-body"}).append([
                 $("<div/>", {"class": "row text-center"}).append([
@@ -161,22 +240,19 @@ function createSectionDiv(section) {
                 ]),
                 $("<div/>", {"class": "row text-center mb-1"}).append([
                     $("<div/>", {"class": "col-6"}).append(
-                        createGoogleSheetsButton(section, "ta")
+                        createAssignButton(section, "ta")
                     ),
                     $("<div/>", {"class": "col-6"}).append(
-                        createGoogleSheetsButton(section, "student")
+                        createAssignButton(section, "student")
+
                     ),
                 ]),
                 $("<div/>", {"class": "row text-center mb-1"}).append([
                     $("<div/>", {"class": "col-6"}).append(
-                        $("<button/>", {"class": "btn btn-light border-grey w-90 disabled", "data-bs-toggle": "modal", "data-bs-target": "#assignModal"}).append(
-                            'Assign <i class="bi bi-person-gear float-end me-1"></i>'
-                        )
+                        createGoogleSheetsButton(section, "ta")
                     ),
                     $("<div/>", {"class": "col-6"}).append(
-                        $("<button/>", {"class": "btn btn-light border-grey w-90 disabled", "data-bs-toggle": "modal", "data-bs-target": "#assignModal"}).append(
-                            'Assign <i class="bi bi-person-gear float-end me-1"></i>'
-                        )
+                        createGoogleSheetsButton(section, "student")
                     ),
                 ]),
             ]),
@@ -253,4 +329,5 @@ $(window).on("load", async () => {
 
     await updateSectionsDisplay(course);
     $("#loadingPlaceholder").hide();
+    $("#addNew").removeClass("hidden");
 });

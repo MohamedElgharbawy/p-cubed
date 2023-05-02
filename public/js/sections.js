@@ -13,11 +13,13 @@ async function addSection(courseId, sectionType, sectionName) {
             uuid: sectionUuid,
             ta: {
                 formId: null,
+                formUrl: null,
                 sheetsId: null,
                 sectionTimes: []
             },
             student: {
                 formId: null,
+                formUrl: null,
                 sheetsId: null,
                 sectionTimes: []
             }

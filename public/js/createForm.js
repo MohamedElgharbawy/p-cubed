@@ -1,5 +1,7 @@
 import { getCourse, addCourse, deleteCourse, testAuthStuff, getCurrentCourseUUID, getCurrentCourse, setCurrentCourseCookie, setCurrentCourseTextsFromCookie } from "./courses.js";
 import { signOutGoogle } from "./auth.js";
+import { getSection, updateSection } from "./sections.js";
+import { createGoogleForm } from "./forms.js";
 // import { TempusDominus } from 'https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/6.7.7/js/tempus-dominus.js';
 
 var numTimes = 1;
@@ -22,10 +24,10 @@ $("#addNewTimeButton").on("click", () => {
             </select>
             </div>
             <div class="col-3">
-                <input id="timeStart${rowInd}" type="time" class="form-control"/> 
+                <input id="timeStart${rowInd}" type="time" class="form-control" value="00:00"/> 
             </div>
             <div class="col-3">
-                <input id="timeEnd${rowInd}" type="time" class="form-control" /> 
+                <input id="timeEnd${rowInd}" type="time" class="form-control" value="00:00"/> 
             </div>
             <div class="col-3">
                 <button id="timeRemove${rowInd}" type="button" class="btn-close pb-0"></button>
@@ -48,13 +50,41 @@ $("#cancelButton").on("click", () => {
     window.location.href = `/course/${currentUUID}/${sectionType}`
 });
 
-$("#createButton").on("click", () => {
-    // const sectionType = new URL(window.location.href).searchParams.get('stype');
-    // const currentUUID = getCurrentCourseUUID();
-    // window.location.href = `/course/${currentUUID}/${sectionType}`
+$("#createButton").on("click", async () => {
+    // TODO: Validate inputs
+
+    var sectionTimes = []
+
     for (const rowInd of timeRowInds) {
         console.log(rowInd);
+        var timeDay = $(`#timeDay${rowInd}`).val()
+        var timeStart = $(`#timeStart${rowInd}`).val()
+        var timeEnd = $(`#timeEnd${rowInd}`).val()
+        sectionTimes.push(`${timeDay} ${timeStart}-${timeEnd}`);
     }
+
+    const searchParams = new URL(window.location.href).searchParams;
+    const sectionId = searchParams.get('sectionId');
+    const taOrStudent = searchParams.get('role');
+
+    var section = await getSection(sectionId);
+    section[taOrStudent].sectionTimes = sectionTimes;
+    
+    // ACTUALLY CREATE THE FORM
+    var formDetails = {
+        "title": $("#formTitleInput").val(),
+        "description": $("#formDescriptionInput").val(),
+        "sectionTimes": sectionTimes
+    }
+    var formResult = await createGoogleForm(formDetails);
+    section[taOrStudent].formId = formResult.formId;
+    section[taOrStudent].formUrl = formResult.formUrl;
+
+    await updateSection(section);
+
+    const sectionType = searchParams.get('stype');
+    const currentUUID = getCurrentCourseUUID();
+    window.location.href = `/course/${currentUUID}/${sectionType}`
 });
 
 function getSchduleTypeDisplayString(scheduleType) {
