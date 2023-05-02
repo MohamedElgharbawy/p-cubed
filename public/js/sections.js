@@ -96,11 +96,13 @@ async function deleteForm(sectionId, taOrStudent) {
 
 
 async function getFormId(sectionId, taOrStudent) {
+    var result;
     await withUser(async (_) => {
         const sectionRef = doc(db, 'sections', sectionId)
         const section = await getDoc(sectionRef)
-        return section.data()[taOrStudent]["formID"]
+        result = section.data()[taOrStudent]["formID"]
     })
+    return result;
 }
 
 async function addSheets(sheetsDetails, sectionId, taOrStudent) {
@@ -124,11 +126,13 @@ async function addSheets(sheetsDetails, sectionId, taOrStudent) {
 }
 
 async function getSheetsId(sectionId, taOrStudent) {
+    var result;
     await withUser(async (_) => {
         const sectionRef = doc(db, 'sections', sectionId)
         const section = await getDoc(sectionRef)
-        return section.data()[taOrStudent]["sheetsID"]
+        result = section.data()[taOrStudent]["sheetsID"]
     })
+    return result;
 }
 
 export { addSection, updateSection, getSection, deleteSection, addForm, 
