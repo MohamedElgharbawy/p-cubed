@@ -1,7 +1,7 @@
 import { signOutGoogle } from "./auth.js";
 import { getCourses, addCourse, deleteCourse, testAuthStuff } from "./courses.js";
-import { createGoogleSheet } from "./sheets.js";
 import { createGoogleForm, getGoogleFormResponses } from "./forms.js";
+import { createGoogleSheet, exportModelToSheets } from "./sheets.js";
 
 async function printCourses() {
     let courses = await getCourses();
@@ -123,13 +123,6 @@ function assignPreference() {
     });
 }
 
-async function createSheet() {
-    const result = await createGoogleSheet("CS 12 LOST Section");
-    console.log(result);
-    console.log(result["spreadSheetId"]);
-    console.log(result["spreadsheetUrl"]);
-}
-
 function gapiLoaded() {
     gapi.load('client', initializeGapiClient);
 }
@@ -166,6 +159,44 @@ async function getForm() {
     const result = await getGoogleFormResponses("12yHI4jgUl5RVE9rKvqQJ36USEh3eFuFMLBRSuDzxeI8")
 }
 
+async function createSheet() {
+    const sheetsDetails = {
+        'title': 'CS 12 Assignments'
+    }
+    const result = await createGoogleSheet(sheetsDetails)
+}
+
+async function exportModel() {
+    const modelOutput = {
+        "Wed 11am-12pm": [
+            {
+                'Name': 'Mohamed Elgharbawy',
+                'SID': '12309812'
+            },
+            {
+                'Name': 'first last2',
+                'SID': '12423'
+            }
+        ],
+        "Thu 10am-11am": [
+            {
+                'Name': 'first last',
+                'SID': '12432'
+            },
+            {
+                'Name': 'first last2',
+                'SID': '12423'
+            }
+        ]
+    }
+    const sheetsInfo = {
+        spreadsheetID: "1bwPYRDPl4WPu88ggJqiBVbbLK8G90uCoicOYEKWlEIo",
+        taSheetID: "2002528586",
+        studentSheetID: "892409405"
+    }
+    await exportModelToSheets(sheetsInfo, modelOutput, "student")
+}
+
 $('#printCourses').on('click', printCourses);
 $('#signout').on('click', signOutGoogle);
 $('#addRandomCourse').on('click', addRandomCourse);
@@ -177,5 +208,7 @@ $('#cancelAddCourse').on('click', clearCourseInput);
 $('#createSpreadsheet').on('click', createSheet);
 $('#createForm').on('click', createForm);
 $('#getForm').on('click', getForm);
+$('#createSheet').on('click', createSheet);
+$('#exportModel').on('click', exportModel);
 
 $(window).on("load", updateCoursesDisplay);

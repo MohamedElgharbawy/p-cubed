@@ -1,5 +1,5 @@
 import { firebaseApp, db, firebaseConfig } from '../firebase/config.js'
-import { getAuth, getRedirectResult, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js"
+import { getAuth } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js"
 import { getCookie } from './utils.js';
 
 async function createGoogleForm(formDetails) {
