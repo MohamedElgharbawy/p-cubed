@@ -10,6 +10,23 @@ async function assignPreference(section, taOrStudent, capacity) {
     console.log(prefData);
     console.log(capacity);
 
+    var totalCapacity = 0;
+    for (var [key, value] of Object.entries(capacity)) {
+        totalCapacity += parseInt(value);
+    }
+    
+    console.log(totalCapacity);
+
+    var numResponses = prefData.length;
+    console.log(numResponses);
+
+    for (var [key, value] of Object.entries(capacity)) {
+        capacity[key] = Math.ceil(numResponses * parseInt(value) / totalCapacity).toString();
+    }
+
+    console.log("final capacity");
+    console.log(capacity);
+
     // await new Promise((resolve, reject) => {
     var response = await fetch("/assign", {
         method: "POST",
@@ -29,7 +46,7 @@ async function assignPreference(section, taOrStudent, capacity) {
 
     if (spreadsheetId == null) {
         var sheetsResult = await createGoogleSheet({
-            "title": `${section.name} ${taOrStudent === "ta" ? "TA" : "Student"} Assignments`
+            "title": `${section.name} Assignments`
         });
         spreadsheetId = sheetsResult.spreadsheetId;
         sheetsId = sheetsResult[`${taOrStudent}SheetsId`];

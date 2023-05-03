@@ -157,7 +157,7 @@ async function exportModelToSheets(spreadsheetId, sheetId, modelOutput, taOrStud
 }
 
 function getSheetsUrl(spreadSheetID, sheetID) {
-    return `https://docs.google.com/spreadsheets/d/${spreadSheetID}/edit?ouid=${sheetID}`
+    return `https://docs.google.com/spreadsheets/d/${spreadSheetID}/edit#gid=${sheetID}`
 }
 
 // function getTotalNumberEntries(modelOutput) {
