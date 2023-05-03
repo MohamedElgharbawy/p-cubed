@@ -4,23 +4,42 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pristine Pleasant Planning</title>
+  <link rel="icon" type="image/jpg" href="/images/logo.jpg">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <link rel="stylesheet" type="text/css" href="/css/styles.css">
 </head>
 
 <body>
-  <div class="container mt-2 pb-3">
+  <div class="container-fluid bg-light-grey p-2">
     <div class="row">
       <div class="col">
-        <img src="/images/logo.jpg" style="width: 5%; height: auto;"/>
+        <img src="/images/logo.jpg" class="px-2" style="height: 2.5em;"/>
+        <span class="fs-2 align-middle text-primary">Pristine Pleasant Planning</span>
+        <a tabindex="0" role="button" id="userPicButton" class="btn btn-primary p-0 ps-2 rounded-pill float-end" data-bs-container="body" data-bs-toggle="popover" data-bs-trigger="focus">
+          <span class="fs-5 align-middle pb-1 px-1">Account</span>
+          <img id="userPic" class="img-thumbnail rounded-circle" style="height: 2.5em;" src="">
+        </a>
       </div>
     </div>
+  </div>
+  <div hidden>
+    <div data-name="userpic-popover-content">
+      <button id="signout" class="btn btn-outline-danger" type="button">
+        <i class="bi bi-box-arrow-left"></i> Sign Out
+      </button>
+    </div>
+  </div>
+
+  <div class="container mt-3 pb-1">
     <div class="row">
       <div class="col text-center">
-        <h1>Courses</h1>
+        <h1 class="fw-semibold">Courses</h1>
       </div>
     </div>
 
-    <div class="row">
+    <!-- Test buttons -->
+    <!-- <div class="row">
       <div class="col">
         <h3>Test Buttons</h3>
       </div>
@@ -30,7 +49,6 @@
         <button type="button" class="btn btn-primary" id="printCourses">Print Courses</button>
         <button type="button" class="btn btn-primary" id="addRandomCourse">Add Random Course</button>
         <button type="button" class="btn btn-primary" id="deleteAllCourses">Delete All Courses</button>
-        <!-- <button type="button" class="btn btn-primary" id="updateDisplay">Update</button> -->
         <button type="button" class="btn btn-primary" id="assignPref">Assign</button>
         <button type="button" class="btn btn-primary" id="signout">Signout</button>
         <button type="button" class="btn btn-primary" id="createSpreadsheet">Create Spreadsheet</button>
@@ -40,13 +58,14 @@
         <button type="button" class="btn btn-primary" id="exportModel">Export Model</button>
       </div>
       </div>
-    </div>
+    </div> -->
+    <!-- End test buttons -->
 
   </div> 
 
   <!-- Add course modal -->
-  <div class="modal" id="addCourseModal" tabindex="-1" aria-labelledby="addCourseModalLabel" aria-hidden="true" role="dialog">
-    <div class="modal-dialog modal-dialog-centered">
+  <div class="modal" id="addCourseModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="addCourseModalLabel">Add a New Course</h5>
@@ -74,27 +93,40 @@
               <div class="col">
                 <div class="form-group">
                   <label for="term" class="col-form-label">Term</label>
-                  <input type="text" class="form-control" name="courseTermInput" id="courseTermInput"/>
+                  <!-- <input type="text" class="form-control" name="courseTermInput" id="courseTermInput"/> -->
+                  <select class="form-select" name="courseTermInput" id="courseTermInput">
+                    <option>Winter</option>
+                    <option selected>Spring</option>
+                    <option>Summer</option>
+                    <option>Fall</option>
+                  </select>
                 </div>
               </div>
               <div class="col">
                 <div class="form-group">
                   <label for="year" class="col-form-label">Year</label>
-                  <input type="text" class="form-control" name="courseYearInput" id="courseYearInput"/>
+                  <input type="text" class="form-control inputInteger" name="courseYearInput" id="courseYearInput"/>
                 </div>
               </div>
             </div>
           </form>
         </div>
         <div class="modal-footer justify-content-between">
-          <button id="cancelAddCourse" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-          <button id="confirmAddCourse" type="button" class="btn btn-primary" data-bs-dismiss="modal">Add</button>
+          <button id="cancelAddCourse" type="button" class="btn btn-secondary">Cancel</button>
+          <button id="confirmAddCourse" type="button" class="btn btn-primary">Add</button>
         </div>
       </div>
     </div>
   </div>
 
   <div class="container" id="displayedCourses">
+    <div class="row row-cols-4 g-4 pb-3">
+      <div class="col">
+        <div class="card h-100 border-grey">
+          <span class="card-body text-center fs-3">Loading courses...</span>
+        </div>
+      </div>
+  </div>
     <!-- Generated -->
   </div>
 
@@ -102,7 +134,7 @@
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
-  <!-- <script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script> -->
+  <script src="/js/inputValidation.js" type="module"></script>
   <script src="/js/courseSelect.js" type="module"></script>
 </body>
 </html>

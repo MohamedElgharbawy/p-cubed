@@ -96,23 +96,29 @@ function getCookie(name) {
 }
 
 function setCurrentCourseCookie(course) {
+    setCookie("cuuid", course.uuid, 4);
     setCookie("cnumber", course.number, 4);
     setCookie("cterm", course.term, 4);
     setCookie("cname", course.name, 4);
 }
 
 function setCurrentCourseTextsFromCookie() {
+    let cuuid = getCookie('cuuid');
+    if (getCurrentCourseUUID() !== cuuid) {
+        return;
+    }
+
     let cnumber = getCookie('cnumber');
     let cterm = getCookie('cterm');
     let cname = getCookie('cname');
     if (cnumber) {
-        $(".classNumberText").text(cnumber);
+        $(".classNumberText").removeClass('placeholder').text(cnumber);
     }
     if (cterm) {
-        $(".classTermText").text(cterm);
+        $(".classTermText").removeClass('placeholder').text(cterm);
     }
     if (cname) {
-        $(".classNameText").text(cname);
+        $(".classNameText").removeClass('placeholder').text(cname);
     }
 }
 

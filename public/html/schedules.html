@@ -4,41 +4,66 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title></title>
+  <link rel="icon" type="image/jpg" href="/images/logo.jpg">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
   <link rel="stylesheet" type="text/css" href="/css/styles.css">
 </head>
 
 <body>
+  <!-- Sidebar -->
+  <div class="col-2 px-0 bg-light-grey position-fixed">
+    <div class="d-flex flex-column px-3 pt-2 min-vh-100">
+      <div class="border-bottom border-dark mb-2">
+        <a href="/">
+          <img src="/images/logo.jpg" class="w-25"/>
+        </a>
+        <br/>
+        <h2 class="classNumberText pt-2 fw-bold">Number</h2> 
+        <h5>
+          <span class="classNameText">Name</span><span>&nbsp;(</span><span class="classTermText">Term</span><span>)</span>
+        </h5>
+      </div>
+      <ul class="nav flex-column border-bottom border-dark fs-5 pb-1 position-relative">
+        <li class="nav-item active">
+          <a href="#" class="navButtonHome nav-link px-0 py-1 text-dark">Home</a>
+        </li>
+        <li class="nav-item">
+          <a href="#" id="navbardiscussions" class="navButtonDiscussion nav-link px-0 py-1 text-dark">Discussions</a>
+        </li>
+        <li class="nav-item">
+          <a href="#" id="navbaroh" class="navButtonOH nav-link px-0 py-1 text-dark">Office Hours</a>
+        </li>
+        <li class="nav-item">
+          <a href="#" id="navbarhwparties" class="navButtonHWP nav-link px-0 py-1 text-dark">HW Parties</a>
+        </li>
+        <li class="nav-item">
+          <a href="#" id="navbarlabs" class="navButtonLab nav-link px-0 py-1 text-dark">Labs</a>
+        </li>
+        <li class="nav-item">
+          <a href="#" id="navbarmisc" class="navButtonMisc nav-link px-0 py-1 text-dark">Misc</a>
+        </li>
+      </ul>
+      <ul class="nav flex-column border-bottom border-dark pt-1 pb-1 fs-5">
+        <li class="nav-item">
+          <a href="#" id="navbarcourseselect" class="nav-link px-0 py-1 text-dark"><i class="bi bi-grid"></i> Course Select</a>
+        </li>
+      </ul>
+      <ul class="nav flex-column pb-2 fs-5 position-absolute bottom-0">
+        <li class="nav-item">
+          <a href="#" id="navbarsignout" class="nav-link px-0 py-1 text-dark"><i class="bi bi-box-arrow-left"></i> Sign Out</a>
+        </li>
+        <li class="nav-item">
+          <button href="#" id="navbardeletecourse" class="btn nav-link px-0 py-1 text-danger"><i class="bi bi-trash3"></i> Delete Course</button>
+        </li>
+      </ul>
+    </div>
+  </div>
+
   <div class="container-fluid">
     <div class="row flex-nowrap">
-      <!-- Sidebar -->
       <div class="col-2 px-0 bg-light-grey">
         <div class="d-flex flex-column px-3 pt-2 min-vh-100">
-          <div class="border-bottom border-dark">
-            <img src="/images/logo.jpg" class="w-25"/>
-            <h2 class="classNumberText pt-2 fw-bold">Number</h2> 
-            <h5 class="classTermText">Term</h4>
-          </div>
-          <ul class="nav flex-column pt-1">
-            <li class="nav-item active">
-              <a href="#" class="navButtonHome nav-link px-0 py-1 text-dark">Home</a>
-            </li>
-            <li class="nav-item">
-              <a href="#" id="navbardiscussions" class="navButtonDiscussion nav-link px-0 py-1 text-dark">Discussions</a>
-            </li>
-            <li class="nav-item">
-              <a href="#" id="navbaroh" class="navButtonOH nav-link px-0 py-1 text-dark">Office Hours</a>
-            </li>
-            <li class="nav-item">
-              <a href="#" id="navbarhwparties" class="navButtonHWP nav-link px-0 py-1 text-dark">HW Parties</a>
-            </li>
-            <li class="nav-item">
-              <a href="#" id="navbarlabs" class="navButtonLab nav-link px-0 py-1 text-dark">Labs</a>
-            </li>
-            <li class="nav-item">
-              <a href="#" id="navbarmisc" class="navButtonMisc nav-link px-0 py-1 text-dark">Misc</a>
-            </li>
-          </ul>
         </div>
       </div>
 
@@ -48,140 +73,192 @@
           <!-- Content Heading -->
           <div class="row">
             <div class="col">
-              <span class="classNumberText fs-1 fw-bold border-end border-dark pe-4 me-3">Number</span>
-              <span class="classTermText fs-3">Term</span>
+              <span class="classNumberText fs-1 fw-bold border-end border-dark pe-4 me-3 placeholder">Number</span>
+              <span class="classTermText fs-3 placeholder">Term</span>
             </div>
           </div>
           <div class="row border-bottom border-dark">
             <div class="col">
-              <span id="scheduleTypeText" class="fs-3 fw-bold pe-4 me-5">Type</span>
-              <span class="classNameText fs-5 ms-3">Name</span>
+              <span id="scheduleTypeText" class="fs-3 fw-bold pe-4 me-5 placeholder">Type</span>
             </div>
           </div>
 
           <!-- Content content -->
-          <div class="row row-cols-3 pt-5 g-5">
+          <div id="contentDiv" class="row row-cols-3 pt-5 g-5">
             <!-- Filled in -->
-            <div class="col">
-              <div class="card h-100 border-secondary">
-                <h5 class="card-header border-secondary">
-                  Standard Discussion
-                </h5>
+            <!-- <div class="col">
+              <div class="card h-100 border-grey">
+                <div class="card-header py-1 border-grey">
+                  <span class="fs-4 align-bottom">Standard Discussion</span>
+                  <button class="btn py-0 px-1 mt-0 mb-0 align-bottom text-danger float-end" data-bs-toggle="modal" data-bs-target="#deleteSectionModal">
+                    <i class="bi bi-trash3 fs-4 p-0 mt-0 mb-0"></i>
+                  </button>
+                </div>
                 <div class="card-body">
                   <div class="row text-center">
-                    <div class="col">
+                    <div class="col-6">
                       <h5>TA</h5>
                     </div>
-                    <div class="col">
+                    <div class="col-6">
                       <h5>Student</h5>
                     </div>
                   </div>
                   <div class="row text-center mb-1">
-                    <div class="col">
-                      <a href="#" class="btn btn-light border-secondary w-75">Form</a>
+                    <div class="col-6">
+                      <a href="#" class="btn btn-light border-grey w-90">Form <img class="float-end" src="/images/google-forms.png" style="height:1.5em;"></a>
                     </div>
-                    <div class="col">
-                      <a href="#" class="btn btn-light border-secondary w-75">Form</a>
-                    </div>
-                  </div>
-                  <div class="row text-center mb-1">
-                    <div class="col">
-                      <a href="#" class="btn btn-light border-secondary w-75">Sheet</a>
-                    </div>
-                    <div class="col">
-                      <a href="#" class="btn btn-light border-secondary w-75">Sheet</a>
+                    <div class="col-6">
+                      <a href="#" class="btn btn-light border-grey w-90">Form <img class="float-end" src="/images/google-forms.png" style="height:1.5em;"></a>
                     </div>
                   </div>
                   <div class="row text-center mb-1">
-                    <div class="col">
-                      <button class="btn btn-light border-secondary w-75" data-bs-toggle="modal" data-bs-target="#assignModal">Assign</button>
+                    <div class="col-6">
+                      <a href="#" class="btn btn-light border-grey w-90">Sheets <img class="float-end" src="/images/google-sheets.png" style="height:1.5em;"></a>
                     </div>
-                    <div class="col">
-                      <button class="btn btn-light border-secondary w-75" data-bs-toggle="modal" data-bs-target="#assignModal">Assign</button>
+                    <div class="col-6">
+                      <a href="#" class="btn btn-light border-grey w-90">Sheets <img class="float-end" src="/images/google-sheets.png" style="height:1.5em;"></a>
+                    </div>
+                  </div>
+                  <div class="row text-center mb-1">
+                    <div class="col-6">
+                      <button class="btn btn-light border-grey w-90" data-bs-toggle="modal" data-bs-target="#assignModal">Assign <i class="bi bi-person-gear float-end me-1"></i></button>
+                    </div>
+                    <div class="col-6">
+                      <button class="btn btn-light border-grey w-90" data-bs-toggle="modal" data-bs-target="#assignModal">Assign <i class="bi bi-person-gear float-end me-1"></i></button>
                     </div>
                   </div>
                 </div>
-                <div class="card-footer text-end border-secondary">
-                  <button class="btn btn-danger py-0" data-bs-toggle="modal" data-bs-target="#deleteSectionModal">Delete</button>
+                <div class="card-footer bg-primary p-0" style="height:0.2em;"></div>
+              </div>
+            </div> -->
+
+            <!-- Half filled in -->
+            <!-- <div class="col">
+              <div class="card h-100 border-grey">
+                <div class="card-header py-1 border-grey">
+                  <span class="fs-4 align-bottom">LOST Sections</span>
+                  <button class="btn py-0 px-1 mt-0 mb-0 align-bottom text-danger float-end" data-bs-toggle="modal" data-bs-target="#deleteSectionModal">
+                    <i class="bi bi-trash3 fs-4 p-0 mt-0 mb-0"></i>
+                  </button>
                 </div>
+                <div class="card-body">
+                  <div class="row text-center">
+                    <div class="col-6">
+                      <h5>TA</h5>
+                    </div>
+                    <div class="col-6">
+                      <h5>Student</h5>
+                    </div>
+                  </div>
+                  <div class="row text-center mb-1">
+                    <div class="col-6">
+                      <a href="#" class="btn btn-light border-grey w-90">Form <img class="float-end" src="/images/google-forms.png" style="height:1.5em;"></a>
+                    </div>
+                    <div class="col-6">
+                      <button id="createFormButton" class="btn btn-light border-grey w-90">+ Create Form</button>
+                    </div>
+                  </div>
+                  <div class="row text-center mb-1">
+                    <div class="col-6">
+                      <a href="#" class="btn btn-light border-grey w-90">Sheets <img class="float-end" src="/images/google-sheets.png" style="height:1.5em;"></a>
+                    </div>
+                    <div class="col-6">
+                      <a href="#" class="btn btn-light border-grey w-90 disabled">Sheets <img class="float-end" src="/images/google-sheets.png" style="height:1.5em;"></a>
+                    </div>
+                  </div>
+                  <div class="row text-center mb-1">
+                    <div class="col-6">
+                      <button class="btn btn-light border-grey w-90" data-bs-toggle="modal" data-bs-target="#assignModal">Assign <i class="bi bi-person-gear float-end me-1"></i></button>
+                    </div>
+                    <div class="col-6">
+                      <button class="btn btn-light border-grey w-90 disabled" data-bs-toggle="modal" data-bs-target="#assignModal">Assign <i class="bi bi-person-gear float-end me-1"></i></button>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-footer bg-primary p-0" style="height:0.2em;"></div>
+              </div>
+            </div> -->
+            
+            <!-- Unfilled -->
+            <!-- <div class="col">
+              <div class="card h-100 border-grey">
+                <div class="card-header py-1 border-grey">
+                  <span class="fs-4 align-bottom">LOST Sections</span>
+                  <button class="btn py-0 px-1 mt-0 mb-0 align-bottom text-danger float-end" data-bs-toggle="modal" data-bs-target="#deleteSectionModal">
+                    <i class="bi bi-trash3 fs-4 p-0 mt-0 mb-0"></i>
+                  </button>
+                </div>
+                <div class="card-body">
+                  <div class="row text-center">
+                    <div class="col-6">
+                      <h5>TA</h5>
+                    </div>
+                    <div class="col-6">
+                      <h5>Student</h5>
+                    </div>
+                  </div>
+                  <div class="row text-center mb-1">
+                    <div class="col-6">
+                      <button id="createFormButton" class="btn btn-light border-grey w-90">+ Create Form</button>
+                    </div>
+                    <div class="col-6">
+                      <button id="createFormButton" class="btn btn-light border-grey w-90">+ Create Form</button>
+                    </div>
+                  </div>
+                  <div class="row text-center mb-1">
+                    <div class="col-6">
+                      <a href="#" class="btn btn-light border-grey w-90 disabled">Sheets <img class="float-end" src="/images/google-sheets.png" style="height:1.5em;"></a>
+                    </div>
+                    <div class="col-6">
+                      <a href="#" class="btn btn-light border-grey w-90 disabled">Sheets <img class="float-end" src="/images/google-sheets.png" style="height:1.5em;"></a>
+                    </div>
+                  </div>
+                  <div class="row text-center mb-1">
+                    <div class="col-6">
+                      <button class="btn btn-light border-grey w-90 disabled" data-bs-toggle="modal" data-bs-target="#assignModal">Assign <i class="bi bi-person-gear float-end me-1"></i></button>
+                    </div>
+                    <div class="col-6">
+                      <button class="btn btn-light border-grey w-90 disabled" data-bs-toggle="modal" data-bs-target="#assignModal">Assign <i class="bi bi-person-gear float-end me-1"></i></button>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-footer bg-primary p-0" style="height:0.2em;"></div>
+              </div>
+            </div> -->
+
+            <!-- Loading placeholder -->
+            <div id="loadingPlaceholder" class="col">
+              <div class="card h-100">
+                <span class="card-body text-center fs-3">Loading sections...</span>
               </div>
             </div>
 
-            <!-- Half filled in -->
-            <div class="col">
-              <div class="card h-100 border-secondary">
-                <h5 class="card-header border-secondary">
-                  Standard Discussion
-                </h5>
-                <div class="card-body">
-                  <div class="row text-center">
-                    <div class="col-6">
-                      <h5>TA</h5>
-                    </div>
-                    <div class="col-6">
-                      <h5>Student</h5>
-                    </div>
-                  </div>
-                  <div class="row text-center mb-1">
-                    <div class="col-6">
-                      <a href="#" class="btn btn-light border-secondary w-75">Form</a>
-                    </div>
-                    <div class="col-6">
-                      <a href="/course/lgxuizuawe2u00kg25/createForm" class="btn btn-light border-secondary w-75">+ Create Form</a>
-                    </div>
-                  </div>
-                  <div class="row text-center mb-1">
-                    <div class="col-6">
-                      <a href="#" class="btn btn-light border-secondary w-75">Sheet</a>
-                    </div>
-                    <!-- <div class="col">
-                      <a href="#" class="btn btn-light border-secondary w-75">Sheet</a>
-                    </div> -->
-                  </div>
-                  <div class="row text-center mb-1">
-                    <div class="col-6">
-                      <button class="btn btn-light border-secondary w-75" data-bs-toggle="modal" data-bs-target="#assignModal">Assign</button>
-                    </div>
-                    <!-- <div class="col">
-                      <button class="btn btn-light border-secondary w-75" data-bs-toggle="modal" data-bs-target="#assignModal">Assign</button>
-                    </div> -->
-                  </div>
-                </div>
-                <div class="card-footer text-end border-secondary">
-                  <button class="btn btn-danger py-0" data-bs-toggle="modal" data-bs-target="#deleteSectionModal">Delete</button>
-                </div>
-              </div>
-            </div>
-            
             <!-- Add new -->
-            <div class="col">
-              <div class="card h-100">
-                <button class="btn btn-light h-100 fs-3">+ Add New</button>
+            <div id="addNew" class="col hidden">
+              <div class="card h-100 border-grey">
+                <button id="addNewButton" class="btn btn-light h-100 fs-3">+ Add New</button>
               </div>
             </div>
 
             <!-- Enter name -->
-            <div class="col">
-              <div class="card h-100">
+            <div id="addNewEnterName" class="col hidden">
+              <div class="card h-100 border-grey">
                 <div class="card-body">
                   <div class="row">
                     <div class="col">
-                      <div class="form-group">
+                      <div class="form-group has-validation">
                         <label for="course-number" class="col-form-label">Enter Section Name</label>
                         <input type="text" class="form-control" name="sectionNameInput" id="sectionNameInput"/>
+                        <div id="sectionNameInputFeedback" class="invalid-feedback">
+                          Please provide a section name.
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="card-footer">
-                  <div class="row p-0 m-0">
-                    <div class="col p-0 m-0">
-                      <button id="cancelAddSection" type="button" class="btn btn-secondary py-0">Cancel</button>
-                    </div>
-                    <div class="col p-0 m-0 text-end">
-                      <button id="confirmAddsection" type="button" class="btn btn-primary py-0">Add</button>
-                    </div>
-                  </div>
+                <div class="card-footer border-grey">
+                  <button id="cancelAddSectionButton" type="button" class="btn btn-secondary py-0">Cancel</button>
+                  <button id="confirmAddSectionButton" type="button" class="btn btn-primary py-0 float-end">Add</button>
                 </div>
               </div>
             </div>
@@ -190,15 +267,12 @@
             <div class="modal" id="deleteSectionModal" tabindex="-1" role="dialog">
               <div class="modal-dialog">
                 <div class="modal-content">
-                  <!-- <div class="modal-header">
-                    <h5 class="modal-title" id="addCourseModalLabel">Deleting a section!</h5>
-                  </div> -->
                   <div class="modal-body">
-                    Are you sure you want to delete Standard Section? This action cannot be undone!
+                    Are you sure you want to delete <span id="deleteSectionModalSectionName" class="fw-bold">Standard Section</span>? This action cannot be undone!</span>
                   </div>
                   <div class="modal-footer justify-content-between">
-                    <button id="cancelDeleteSection" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button id="confirmDeleteSection" type="button" class="btn btn-danger" data-bs-dismiss="modal">Delete</button>
+                    <button id="cancelDeleteSection" type="button" class="btn btn-secondary">Cancel</button>
+                    <button id="confirmDeleteSection" type="button" class="btn btn-danger">Delete</button>
                   </div>
                 </div>
               </div>
@@ -209,39 +283,31 @@
               <div class="modal-dialog">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h5 class="modal-title" id="addCourseModalLabel">Assign TAs</h5>
+                    <h5 class="modal-title fw-semibold" id="addCourseModalLabel">Assign TAs</h5>
                   </div>
                   <div class="modal-body">
                     <!-- heading -->
-                    <div class="row">
-                      <div class="col-7">
-                        <h5>Section</h5>
+                    <div id="assignModalSectionTimeHeading" class="row">
+                      <div class="col-8">
+                        <h5 class="fw-bold">Sections</h5>
                       </div>
-                      <div class="col-5">
-                        <h5>Num TAs</h5>
+                      <div class="col-4">
+                        <h5 id="assignModalNumHeading" class="fw-bold">Num TAs</h5>
                       </div>
                     </div>
                     <!-- times -->
-                    <div class="row mb-1">
-                      <div class="col-7">
-                        <span class="fw-bold fs-5">Mon</span><span class="fs-5"> 2:00pm-3:00pm</span>
+                    <!-- <div class="row mb-1">
+                      <div class="col-8">
+                        <span class="fw-bold fs-5">Mon</span><span class="fs-5"> 2:00pm - 3:00pm</span>
                       </div>
-                      <div class="col-5">
+                      <div class="col-4">
                         <input type="text" class="form-control" name="sectionTime1Num" id="sectionTime1Num"/>
                       </div>
-                    </div>
-                    <div class="row mb-1">
-                      <div class="col-7">
-                        <span class="fw-bold fs-5">Tue</span><span class="fs-5"> 10:00am-11:00am</span>
-                      </div>
-                      <div class="col-5">
-                        <input type="text" class="form-control" name="sectionTime1Num" id="sectionTime1Num"/>
-                      </div>
-                    </div>
+                    </div> -->
                   </div>
                   <div class="modal-footer justify-content-between">
-                    <button id="cancelAssign" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button id="confirmAssign" type="button" class="btn btn-primary" data-bs-dismiss="modal">Assign</button>
+                    <button id="cancelAssignButton" type="button" class="btn btn-secondary">Cancel</button>
+                    <button id="confirmAssignButton" type="button" class="btn btn-primary">Assign</button>
                   </div>
                 </div>
               </div>
@@ -256,7 +322,8 @@
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
-  <script src="/js/schedules.js" type="module"></script>
+  <script src="/js/inputValidation.js" type="module"></script>
   <script src="/js/navButtons.js" type="module"></script>
+  <script src="/js/schedules.js" type="module"></script>
 </body>
 </html>

@@ -8,6 +8,7 @@ const {PythonShell} = require('python-shell');
 
 const app = express();
 app.use(cors());
+app.use(express.json())
 const router = express.Router();
 
 //specify that we want to run our website on 'http://localhost:8000/'
@@ -44,19 +45,23 @@ app.get('/login', function (req, res) {
 });
 
 //run python matching code, and send back the assignment result
-app.get("/assign", (req, res, next)=>{
+app.post("/assign", (req, res) => {
+    console.log(req.body);
 
     let pyshell = new PythonShell('python/run_assign.py', {
-        mode: 'json'
+        mode: 'text'
     });
+
     let output = '';
     pyshell.stdout.on('data', function (data) {
         output += '' + data;
     });
-    pyshell.send(req.query).end(function (err) {
+
+    pyshell.send(JSON.stringify(req.body)).end(function (err) {
         if (err) throw err;
-        console.log(output)
-        res.send(output)
+        console.log("response:");
+        console.log(output);
+        res.json(JSON.parse(output));
     });
 });
 

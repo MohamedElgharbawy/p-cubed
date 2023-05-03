@@ -8,4 +8,12 @@ function getCookie(name) {
     if (parts.length === 2) return parts.pop().split(';').shift();
 }
 
-export {getUUID, getCookie}
+async function sleep(milliseconds) {
+    await new Promise(r => setTimeout(r, milliseconds));
+}
+
+function inputIntegerCallback(event) {
+    $(event.currentTarget).val($(event.currentTarget).val().replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1'));
+}
+
+export {getUUID, getCookie, sleep, inputIntegerCallback}
