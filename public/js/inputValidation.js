@@ -1,3 +1,3 @@
-import { inputIntegerCallback } from "./utils";
+import { inputIntegerCallback } from "./utils.js";
 
 $(".inputInteger").on("input", inputIntegerCallback);
