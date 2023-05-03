@@ -11,16 +11,19 @@ async function addSection(courseId, sectionType, sectionName) {
         const section = {
             name: sectionName,
             uuid: sectionUuid,
+            spreadsheetId: null,
             ta: {
                 formId: null,
                 formUrl: null,
                 sheetsId: null,
+                assigned: false,
                 sectionTimes: []
             },
             student: {
                 formId: null,
                 formUrl: null,
                 sheetsId: null,
+                assigned: false,
                 sectionTimes: []
             }
         }

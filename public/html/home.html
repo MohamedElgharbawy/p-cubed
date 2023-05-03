@@ -11,54 +11,59 @@
 </head>
 
 <body>
+  <!-- Sidebar -->
+  <div class="col-2 px-0 bg-light-grey position-fixed">
+    <div class="d-flex flex-column px-3 pt-2 min-vh-100">
+      <div class="border-bottom border-dark mb-2">
+        <a href="/">
+          <img src="/images/logo.jpg" class="w-25"/>
+        </a>
+        <br/>
+        <h2 class="classNumberText pt-2 fw-bold placeholder">Number</h2> 
+        <h5>
+          <span class="classNameText placeholder">Name</span><span>&nbsp;(</span><span class="classTermText placeholder">Term</span><span>)</span>
+        </h5>
+      </div>
+      <ul class="nav flex-column border-bottom border-dark fs-5 pb-1 position-relative">
+        <li class="nav-item">
+          <a href="#" class="navButtonHome nav-link px-0 py-1 text-dark fw-bold text-decoration-underline">Home</a>
+        </li>
+        <li class="nav-item">
+          <a href="#" id="navbardiscussions" class="navButtonDiscussion nav-link px-0 py-1 text-dark">Discussions</a>
+        </li>
+        <li class="nav-item">
+          <a href="#" id="navbaroh" class="navButtonOH nav-link px-0 py-1 text-dark">Office Hours</a>
+        </li>
+        <li class="nav-item">
+          <a href="#" id="navbarhwparties" class="navButtonHWP nav-link px-0 py-1 text-dark">HW Parties</a>
+        </li>
+        <li class="nav-item">
+          <a href="#" id="navbarlabs" class="navButtonLab nav-link px-0 py-1 text-dark">Labs</a>
+        </li>
+        <li class="nav-item">
+          <a href="#" id="navbarmisc" class="navButtonMisc nav-link px-0 py-1 text-dark">Misc</a>
+        </li>
+      </ul>
+      <ul class="nav flex-column border-bottom border-dark pt-1 pb-1 fs-5">
+        <li class="nav-item">
+          <a href="#" id="navbarcourseselect" class="nav-link px-0 py-1 text-dark"><i class="bi bi-grid"></i> Course Select</a>
+        </li>
+      </ul>
+      <ul class="nav flex-column pb-2 fs-5 position-absolute bottom-0">
+        <li class="nav-item">
+          <a href="#" id="navbarsignout" class="nav-link px-0 py-1 text-dark"><i class="bi bi-box-arrow-left"></i> Sign Out</a>
+        </li>
+        <li class="nav-item">
+          <button href="#" id="navbardeletecourse" class="btn nav-link px-0 py-1 text-danger"><i class="bi bi-trash3"></i> Delete Course</button>
+        </li>
+      </ul>
+    </div>
+  </div>
+
   <div class="container-fluid">
     <div class="row flex-nowrap">
-      <!-- Sidebar -->
       <div class="col-2 px-0 bg-light-grey">
         <div class="d-flex flex-column px-3 pt-2 min-vh-100">
-          <div class="border-bottom border-dark mb-2">
-            <a href="/">
-              <img src="/images/logo.jpg" class="w-25"/>
-            </a>
-            <br/>
-            <h2 class="classNumberText pt-2 fw-bold placeholder">Number</h2> 
-            <h5>
-              <span class="classNameText placeholder">Name</span><span>&nbsp;(</span><span class="classTermText placeholder">Term</span><span>)</span>
-            </h5>
-          </div>
-          <ul class="nav flex-column border-bottom border-dark fs-5">
-            <li class="nav-item">
-              <a href="#" class="navButtonHome nav-link px-0 py-1 text-dark fw-bold text-decoration-underline">Home</a>
-            </li>
-            <li class="nav-item">
-              <a href="#" id="navbardiscussions" class="navButtonDiscussion nav-link px-0 py-1 text-dark">Discussions</a>
-            </li>
-            <li class="nav-item">
-              <a href="#" id="navbaroh" class="navButtonOH nav-link px-0 py-1 text-dark">Office Hours</a>
-            </li>
-            <li class="nav-item">
-              <a href="#" id="navbarhwparties" class="navButtonHWP nav-link px-0 py-1 text-dark">HW Parties</a>
-            </li>
-            <li class="nav-item">
-              <a href="#" id="navbarlabs" class="navButtonLab nav-link px-0 py-1 text-dark">Labs</a>
-            </li>
-            <li class="nav-item">
-              <a href="#" id="navbarmisc" class="navButtonMisc nav-link px-0 py-1 text-dark">Misc</a>
-            </li>
-          </ul>
-          <ul class="nav flex-column p-1 border-bottom border-dark fs-5">
-            <li class="nav-item active">
-              <a href="#" class="navButtonSettings nav-link px-0 py-1 text-dark"><i class="bi bi-gear"></i> Settings</a>
-            </li>
-          </ul>
-          <ul class="nav flex-column pt-1 fs-5">
-            <li class="nav-item">
-              <a href="#" id="navbarcourseselect" class="nav-link px-0 py-1 text-dark"><i class="bi bi-grid"></i> Course Select</a>
-            </li>
-            <li class="nav-item">
-              <a href="#" id="navbarsignout" class="nav-link px-0 py-1 text-dark"><i class="bi bi-box-arrow-left"></i> Sign Out</a>
-            </li>
-          </ul>
         </div>
       </div>
 
@@ -132,6 +137,5 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
   <script src="/js/home.js" type="module"></script>
   <script src="/js/navButtons.js" type="module"></script>
-  <script src="../js/sheets.js" type="module"></script>
 </body>
 </html>

@@ -27,8 +27,20 @@ async function addRandomCourse() {
     updateCoursesDisplay();
 }
 
-async function confirmAddCourse() {
-    // TODO: validate
+function clearCourseInput() {
+    $("#courseNumberInput").val("");
+    $("#courseNameInput").val("");
+    $("#courseTermInput").val("");
+    $("#courseYearInput").val("");
+}
+
+var addCourseModal = new bootstrap.Modal("#addCourseModal");
+
+$('#confirmAddCourse').on('click', async () => {
+    $("#confirmAddCourse").addClass("disabled");
+    $("#cancelAddCourse").addClass("disabled");
+    addCourseModal._config.backdrop = "static";
+    addCourseModal._config.keyboard = false;
 
     let number = $("#courseNumberInput").val().trim();
     let name = $("#courseNameInput").val().trim();
@@ -37,17 +49,22 @@ async function confirmAddCourse() {
 
     if (number && name && term && year) {
         await addCourse(number, name, term + " " + year);
-        updateCoursesDisplay();
+        await updateCoursesDisplay();
         clearCourseInput();
     }
-}
 
-function clearCourseInput() {
-    $("#courseNumberInput").val("");
-    $("#courseNameInput").val("");
-    $("#courseTermInput").val("");
-    $("#courseYearInput").val("");
-}
+    addCourseModal.hide();
+    $("#confirmAddCourse").removeClass("disabled");
+    $("#cancelAddCourse").removeClass("disabled");
+    addCourseModal._config.backdrop = true;
+    addCourseModal._config.keyboard = true;
+});
+
+$('#cancelAddCourse').on('click', () => {
+    clearCourseInput();
+    addCourseModal.hide();
+});
+
 
 async function updateCoursesDisplay() {
     let courses = await getCourses();
@@ -241,8 +258,6 @@ $('#addRandomCourse').on('click', addRandomCourse);
 $('#updateDisplay').on('click', updateCoursesDisplay);
 $('#assignPref').on('click', Test_assignPreference);
 $('#deleteAllCourses').on('click', deleteAllCourses);
-$('#confirmAddCourse').on('click', confirmAddCourse);
-$('#cancelAddCourse').on('click', clearCourseInput);
 $('#createSpreadsheet').on('click', createSheet);
 $('#createForm').on('click', createForm);
 $('#getForm').on('click', getForm);

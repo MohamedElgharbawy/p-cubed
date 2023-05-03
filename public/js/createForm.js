@@ -56,19 +56,17 @@ function formatTime(timestr) {
     var dd = "AM";
     var h = hh;
     if (h >= 12) {
-        h = hh-12;
+        h = hh - 12;
         dd = "PM";
     }
     if (h == 0) {
         h = 12;
     }
-    m = m<10?"0"+m:m;
-    
-    /* if you want 2 digit hours: */
-    h = h<10?"0"+h:h;
+    m = m < 10 ? "0" + m : m;
+    h = h < 10 ? "0" + h: h;
 
-    var pattern = new RegExp("0?"+hh+":"+m);
-    return timestr.replace(pattern,h+":"+m+" "+dd)
+    var pattern = new RegExp("0?" + hh + ":" + m);
+    return timestr.replace(pattern, h + ":" + m + " " + dd)
 }
 
 function formatDay(daystr) {

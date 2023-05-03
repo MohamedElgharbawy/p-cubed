@@ -1,26 +1,50 @@
 import { getCourse, addCourse, deleteCourse, testAuthStuff, getCurrentCourseUUID, getCurrentCourse, setCurrentCourseCookie, setCurrentCourseTextsFromCookie } from "./courses.js";
 import { signOutGoogle } from "./auth.js";
-import { getFormId, addSection, getSection, deleteSection } from "./sections.js"
+import { getFormId, addSection, getSection, deleteSection, addSheets, updateSection } from "./sections.js"
 import { getGoogleFormResponses } from "./forms.js"
+import { createGoogleSheet, exportModelToSheets, getSheetsUrl } from "./sheets.js";
 import { sleep } from "./utils.js"
 
 async function assignPreference(section, taOrStudent, capacity) {
     var prefData = await getGoogleFormResponses(section[taOrStudent].formId);
     console.log(prefData);
     console.log(capacity);
-    var data = JSON.stringify({ prefData: prefData, capacity: capacity });
-    console.log(data);
 
-    $.ajax({
-        type: 'GET',
-        url: '/assign',
-        dataType: 'json',
-        data: { prefData: JSON.stringify(prefData), capacity: JSON.stringify(capacity) },
-        success: (resultData) => {
-            console.log(resultData);
-            
-        }
+    // await new Promise((resolve, reject) => {
+    var response = await fetch("/assign", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ prefData: prefData, capacity: capacity }),
     });
+
+    var modelOutput = await response.json();
+    console.log(modelOutput);
+    
+    var spreadsheetId = section.spreadsheetId;
+    var sheetsId = section[taOrStudent].sheetsId;
+
+    console.log(section);
+
+    if (spreadsheetId == null) {
+        var sheetsResult = await createGoogleSheet({
+            "title": `${section.name} ${taOrStudent === "ta" ? "TA" : "Student"} Assignments`
+        });
+        spreadsheetId = sheetsResult.spreadsheetId;
+        sheetsId = sheetsResult[`${taOrStudent}SheetsId`];
+
+        section["spreadsheetId"] = spreadsheetId;
+        section["ta"]["sheetsId"] = sheetsResult["taSheetsId"];
+        section["student"]["sheetsId"] = sheetsResult["studentSheetsId"];
+    }
+
+    section[taOrStudent].assigned = true;
+    console.log(section);
+    await updateSection(section);
+    
+    await exportModelToSheets(spreadsheetId, sheetsId, modelOutput, taOrStudent);
+    await updateSectionsDisplay();
 }
 
 // $('#confirmAssign').on('click', assignPreference);
@@ -138,13 +162,14 @@ function createGoogleFormButton(section, taOrStudent) {
 }
 
 function createGoogleSheetsButton(section, taOrStudent) {
-    if (section[taOrStudent].sheetsId) {
-        return $('<a/>', {'class': "btn btn-light border-grey w-90", 'href': section[taOrStudent].sheetsUrl}).append(
-            'Sheets <img class="float-end" src="/images/google-sheets.png" style="height:1.5em;">'
+    if (section[taOrStudent].assigned) {
+        var href = getSheetsUrl(section.spreadsheetId, section[taOrStudent].sheetsId);
+        return $('<a/>', {'class': "btn btn-light border-grey w-90", "target": "_blank", "rel": "noopener noreferrer", 'href': href}).append(
+            'Assignments <img class="float-end" src="/images/google-sheets.png" style="height:1.5em;">'
         );
     } else {
         return $("<a/>", {"class": "btn btn-light border-grey w-90 disabled", "href": "#"}).append(
-            'Sheets <img class="float-end" src="/images/google-sheets.png" style="height:1.5em;">'
+            'Assignments <img class="float-end" src="/images/google-sheets.png" style="height:1.5em;">'
         )
     }
 }
@@ -154,8 +179,9 @@ var assignModal = new bootstrap.Modal("#assignModal");
 function createAssignButton(section, taOrStudent) {
     const sectionTimes = section[taOrStudent].sectionTimes;
     if (sectionTimes.length > 0) {
+        var assignText = section[taOrStudent].assigned ? "Reassign" : "Assign";
         var assignButton = $("<button/>", {"class": "btn btn-light border-grey w-90"}).append(
-            'Assign <i class="bi bi-person-gear float-end me-1"></i>'
+            `${assignText} <i class="bi bi-person-gear float-end me-1"></i>`
         )
         
         assignButton.on("click", () => {
@@ -170,7 +196,7 @@ function createAssignButton(section, taOrStudent) {
                             <span class="fs-5">${sectionTime}</span>
                         </div>
                         <div class="col-4">
-                            <input type="number" class="form-control" id="sectionTime${ind}Num"/>
+                            <input type="number" class="form-control" id="sectionTime${ind}Num" value="2"/>
                         </div>
                     </div>`
                 )
@@ -284,7 +310,7 @@ async function updateSectionsDisplay(course) {
 
     $(".sectionDiv").remove();
 
-    for (const section of sections) {
+    for (var section of sections) {
         var sectionDiv = createSectionDiv(section);
         $("#addNew").before(sectionDiv);
     }

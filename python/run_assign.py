@@ -132,9 +132,11 @@ def stringfy_result(matching):
     return str_m
 
 
-pref_data = json.loads(next(sys.stdin).strip())
-capacity = json.loads(next(sys.stdin).strip())
-capacity = {k: int(v) for k, v in capacity.items()}
+# pref_data = json.loads(next(sys.stdin).strip())
+# capacity = json.loads(next(sys.stdin).strip())
+data = json.loads(next(sys.stdin).strip())
+pref_data = data["prefData"]
+capacity = {k: int(v) for k, v in data["capacity"].items()}
 # with open("output.txt", "a") as f:
 #     f.write(repr(pref_data) + "\n")
 #     f.write(repr(capacity) + "\n")
