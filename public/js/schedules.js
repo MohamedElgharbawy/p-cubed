@@ -3,7 +3,7 @@ import { signOutGoogle } from "./auth.js";
 import { getFormId, addSection, getSection, deleteSection, addSheets, updateSection } from "./sections.js"
 import { getGoogleFormResponses } from "./forms.js"
 import { createGoogleSheet, exportModelToSheets, getSheetsUrl } from "./sheets.js";
-import { sleep } from "./utils.js"
+import { inputIntegerCallback, sleep } from "./utils.js"
 
 async function assignPreference(section, taOrStudent, capacity) {
     var prefData = await getGoogleFormResponses(section[taOrStudent].formId);
@@ -187,19 +187,22 @@ function createAssignButton(section, taOrStudent) {
         assignButton.on("click", () => {
             $(".assignModalTimeRow").remove();
             
+            $("#assignModalNumHeading").text(taOrStudent === "ta" ? "Num TAs" : "Section Capacity");
+            $("#addCourseModalLabel").text(taOrStudent === "ta" ? "Assign TAs" : "Assign Students");
+
             var ind = 0;
-            var prev = $("#assingModalSectionTimeHeading");
+            var prev = $("#assignModalSectionTimeHeading");
             for (const sectionTime of sectionTimes) {
-                var newRow = $(
-                    `<div class="assignModalTimeRow row mb-1">
-                        <div class="col-8">
-                            <span class="fs-5">${sectionTime}</span>
-                        </div>
-                        <div class="col-4">
-                            <input type="number" class="form-control" id="sectionTime${ind}Num" value="2"/>
-                        </div>
-                    </div>`
-                )
+                var inputElem = $(`<input type="text" class="form-control" id="sectionTime${ind}Num" value="${taOrStudent === 'ta' ? '1' : '30'}"/>`)
+                inputElem.on("input", inputIntegerCallback);
+                var newRow = $("<div/>", {"class": "assignModalTimeRow row mb-1"}).append([
+                    $("<div/>", {"class": "col-8"}).append(
+                        $(`<span class="fs-5">${sectionTime}</span>`)
+                    ),
+                    $("<div/>", {"class": "col-4"}).append(
+                        inputElem
+                    )
+                ])
                 prev.after(newRow);
                 prev = newRow;
                 ind += 1;

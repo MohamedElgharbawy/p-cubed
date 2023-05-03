@@ -105,9 +105,7 @@
               <div class="col">
                 <div class="form-group">
                   <label for="year" class="col-form-label">Year</label>
-                  <input type="text" class="form-control" name="courseYearInput" id="courseYearInput"
-                    oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
-                  />
+                  <input type="text" class="form-control inputInteger" name="courseYearInput" id="courseYearInput"/>
                 </div>
               </div>
             </div>
@@ -136,7 +134,7 @@
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
-  <!-- <script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script> -->
+  <script src="/js/inputValidation.js" type="module"></script>
   <script src="/js/courseSelect.js" type="module"></script>
 </body>
 </html>

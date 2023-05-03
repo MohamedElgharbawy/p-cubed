@@ -83,6 +83,8 @@ function formatDay(daystr) {
 
 $("#createButton").on("click", async () => {
     // TODO: Validate inputs
+    $("#createButton").addClass("disabled");
+    $("#cancelButton").addClass("disabled");
 
     var sectionTimes = []
 

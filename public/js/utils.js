@@ -12,4 +12,8 @@ async function sleep(milliseconds) {
     await new Promise(r => setTimeout(r, milliseconds));
 }
 
-export {getUUID, getCookie, sleep}
+function inputIntegerCallback(event) {
+    $(event.currentTarget).val($(event.currentTarget).val().replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1'));
+}
+
+export {getUUID, getCookie, sleep, inputIntegerCallback}
