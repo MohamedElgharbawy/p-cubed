@@ -132,18 +132,21 @@ def stringfy_result(matching):
     return str_m
 
 
-for line in sys.stdin:
-    data = json.loads(line)
-    file_p = data['file_p']
-    #file_p = 'asset/pcubed_sample_student_pref.csv'
+pref_data = json.loads(next(sys.stdin).strip())
+capacity = json.loads(next(sys.stdin).strip())
+capacity = {k: int(v) for k, v in capacity.items()}
+# with open("output.txt", "a") as f:
+#     f.write(repr(pref_data) + "\n")
+#     f.write(repr(capacity) + "\n")
 
-    student_pref, section_pref, section_capa = parse_student_csv(file_p)
-    game = HospitalResident.create_from_dictionaries(student_pref, section_pref, section_capa)
-    matching = game.solve(optimal="resident") #return a Dict(section_name: List[student_id])
-    assert game.check_validity()
-    assert game.check_stability()
+student_pref, section_pref, sid_name_map = parse_input_pref(pref_data)
+game = HospitalResident.create_from_dictionaries(student_pref, section_pref, capacity)
+matching = game.solve(optimal="resident") #return a Dict(section_name: List[student_id])
+assert game.check_validity()
+assert game.check_stability()
 
-    str_matching = stringfy_result(matching)
-    balanced_matching = allocated_unmatched(str_matching, section_capa, student_pref.keys())
+str_matching = stringfy_result(matching)
+balanced_matching = allocated_unmatched(str_matching, capacity, student_pref.keys())
+output = format_output(balanced_matching, sid_name_map)
 
-    print(json.dumps(balanced_matching))
+print(json.dumps(output))

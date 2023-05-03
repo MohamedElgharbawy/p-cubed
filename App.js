@@ -44,16 +44,19 @@ app.get('/login', function (req, res) {
 });
 
 //run python matching code, and send back the assignment result
-app.get("/assign", (req, res, next)=>{
-
+app.get("/assign", (req, res, next) => {
     let pyshell = new PythonShell('python/run_assign.py', {
-        mode: 'json'
+        mode: 'text'
     });
+
     let output = '';
     pyshell.stdout.on('data', function (data) {
         output += '' + data;
     });
-    pyshell.send(req.query).end(function (err) {
+
+    console.log(req.query);
+
+    pyshell.send(req.query.prefData).send(req.query.capacity).end(function (err) {
         if (err) throw err;
         console.log(output)
         res.send(output)

@@ -4,19 +4,21 @@ import { getFormId, addSection, getSection, deleteSection } from "./sections.js"
 import { getGoogleFormResponses } from "./forms.js"
 import { sleep } from "./utils.js"
 
-async function assignPreference() {
-    let course = await getCurrentCourse();
-    console.log(course)
-    formID = getFormId(sectionId, taOrStudent)
-    pref_data = getGoogleFormResponses(formID)
+async function assignPreference(section, taOrStudent, capacity) {
+    var prefData = await getGoogleFormResponses(section[taOrStudent].formId);
+    console.log(prefData);
+    console.log(capacity);
+    var data = JSON.stringify({ prefData: prefData, capacity: capacity });
+    console.log(data);
 
     $.ajax({
         type: 'GET',
         url: '/assign',
         dataType: 'json',
-        data: { 'file_p': 'asset/pcubed_sample_student_pref.csv' },
-        success: function(resultData) {
+        data: { prefData: JSON.stringify(prefData), capacity: JSON.stringify(capacity) },
+        success: (resultData) => {
             console.log(resultData);
+            
         }
     });
 }
@@ -168,7 +170,7 @@ function createAssignButton(section, taOrStudent) {
                             <span class="fs-5">${sectionTime}</span>
                         </div>
                         <div class="col-4">
-                            <input type="text" class="form-control" id="sectionTime${ind}Num"/>
+                            <input type="number" class="form-control" id="sectionTime${ind}Num"/>
                         </div>
                     </div>`
                 )
@@ -187,7 +189,12 @@ function createAssignButton(section, taOrStudent) {
                 assignModal._config.keyboard = false;
                 
                 // Calling assign backend
-                await sleep(2000);
+                var capacity = {};
+                for (var i = 0; i < sectionTimes.length; i++) {
+                    capacity[sectionTimes[i]] = $(`#sectionTime${i}Num`).val();
+                }
+
+                await assignPreference(section, taOrStudent, capacity);
                 await updateSectionsDisplay();
 
                 assignModal.hide();

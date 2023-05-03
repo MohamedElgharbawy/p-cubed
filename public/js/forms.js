@@ -175,43 +175,46 @@ async function createGoogleForm(formDetails) {
 
 async function getGoogleFormResponses(formId) {
     var result;
-    await withUser((user) => {
+    await withUser(async (user) => {
         var script = document.createElement('script');
         script.type = 'text/javascript';
         script.src = 'https://apis.google.com/js/api.js';
         // Once the Google API Client is loaded, you can run your code
-        script.onload = async function (e) {
-            gapi.load('client', async function () {
-                // Initialize the Google API Client with the config object
-                await gapi.client.init({
-                    apiKey: firebaseConfig.apiKey,
-                    clientId: firebaseConfig.clientId,
-                    discoveryDocs: firebaseConfig.discoveryDocs,
-                    scope: firebaseConfig.scopes.join(' '),
-                    plugin_name: 'p-cubed'
-                })
-                // Loading is finished, so start the app
-                .then(async function () {
-                    let token = getCookie('token')
-                    await gapi.client.setToken({
-                        access_token: token
+        await new Promise((resolve) => {
+            script.onload = async function (e) {
+                gapi.load('client', async function () {
+                    // Initialize the Google API Client with the config object
+                    await gapi.client.init({
+                        apiKey: firebaseConfig.apiKey,
+                        clientId: firebaseConfig.clientId,
+                        discoveryDocs: firebaseConfig.discoveryDocs,
+                        scope: firebaseConfig.scopes.join(' '),
+                        plugin_name: 'p-cubed'
                     })
+                    // Loading is finished, so start the app
+                    .then(async function () {
+                        let token = getCookie('token')
+                        await gapi.client.setToken({
+                            access_token: token
+                        })
 
-                    let form = await gapi.client.forms.forms.get({
-                        'formId': formId
+                        let form = await gapi.client.forms.forms.get({
+                            'formId': formId
+                        })
+
+                        const questionMap = getQuestionMap(form)
+
+                        let formResponses = await gapi.client.forms.forms.responses.list({
+                            'formId': formId
+                        })
+                        
+                        result = formatFormResponses(formResponses, questionMap);
+                        resolve();
                     })
-
-                    const questionMap = getQuestionMap(form)
-
-                    let formResponses = await gapi.client.forms.forms.responses.list({
-                        'formId': formId
-                    })
-                    
-                    result = formatFormResponses(formResponses, questionMap)
-                })
-            });
-        }
-        document.getElementsByTagName('body')[0].appendChild(script);
+                });
+            }
+            document.getElementsByTagName('body')[0].appendChild(script);
+        });
     });
     return result;
 }
@@ -239,7 +242,12 @@ function getQuestionMap(form) {
 }
 
 function formatFormResponses(formResponses, questionMap) {
-    var result = []
+    // console.log(formResponses)
+    // console.log(questionMap);
+    var result = [];
+    if (!formResponses['result'].responses) {
+        return result;
+    }
     for (var i = 0; i < formResponses['result']['responses'].length; i++) {
         var individualResponse = formResponses['result']['responses'][i]['answers']
         var individualAnswer = {}
@@ -250,8 +258,9 @@ function formatFormResponses(formResponses, questionMap) {
             var sectionAvailability = individualResponse[sectionId]["textAnswers"]["answers"][0]["value"]
             sections[questionMap["Sections"][sectionId]] = sectionAvailability
         }
-        individualAnswer["Sections"] = sections
-        result.push(individualAnswer)
+        individualAnswer["Sections"] = sections;
+        result.push(individualAnswer);
+        // result[individualAnswer["SID"]] = individualAnswer;
     }
     return result
 }

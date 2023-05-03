@@ -50,6 +50,39 @@ $("#cancelButton").on("click", () => {
     window.location.href = `/course/${currentUUID}/${sectionType}`
 });
 
+function formatTime(timestr) {
+    var hh = parseInt(timestr.split(":")[0]);
+    var m = parseInt(timestr.split(":")[1]);
+    var dd = "AM";
+    var h = hh;
+    if (h >= 12) {
+        h = hh-12;
+        dd = "PM";
+    }
+    if (h == 0) {
+        h = 12;
+    }
+    m = m<10?"0"+m:m;
+    
+    /* if you want 2 digit hours: */
+    h = h<10?"0"+h:h;
+
+    var pattern = new RegExp("0?"+hh+":"+m);
+    return timestr.replace(pattern,h+":"+m+" "+dd)
+}
+
+function formatDay(daystr) {
+    return {
+        "Monday": "Mon",
+        "Tuesday": "Tue",
+        "Wednesday": "Wed",
+        "Thursday": "Thu",
+        "Friday": "Fri",
+        "Saturday": "Sat",
+        "Sunday": "Sun",
+    }[daystr];
+}
+
 $("#createButton").on("click", async () => {
     // TODO: Validate inputs
 
@@ -57,10 +90,10 @@ $("#createButton").on("click", async () => {
 
     for (const rowInd of timeRowInds) {
         console.log(rowInd);
-        var timeDay = $(`#timeDay${rowInd}`).val()
-        var timeStart = $(`#timeStart${rowInd}`).val()
-        var timeEnd = $(`#timeEnd${rowInd}`).val()
-        sectionTimes.push(`${timeDay} ${timeStart}-${timeEnd}`);
+        var timeDay = formatDay($(`#timeDay${rowInd}`).val());
+        var timeStart = formatTime($(`#timeStart${rowInd}`).val());
+        var timeEnd = formatTime($(`#timeEnd${rowInd}`).val());
+        sectionTimes.push(`${timeDay} ${timeStart} - ${timeEnd}`);
     }
 
     const searchParams = new URL(window.location.href).searchParams;
