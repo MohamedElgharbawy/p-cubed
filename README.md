@@ -8,7 +8,7 @@ CS 160/260A Final Project
 Check to see if you can run  ``$ node -v`` and ``$ npm -v`` (My versions are v16.15.0 for node and 8.10.0 for npm.)
 ### 3. Install the Express module using npm. 
 ex: ``$ npm install express``
-### 4. Install the matching python module
+### 4. Install the `matching` Python module
 ex: ``$ pip install matching``
 ### 5. Run the example app using Node:
 ex: ``$ node App.js``
